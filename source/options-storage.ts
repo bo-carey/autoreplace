@@ -1,4 +1,4 @@
-import OptionsSync from 'webext-options-sync';
+const OptionsSync = require('webext-options-sync');
 
 export default new OptionsSync({
 	defaults: {
