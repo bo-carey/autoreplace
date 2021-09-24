@@ -1,9 +1,9 @@
 {
-	"name": "Awesome Extension",
+	"name": "Backstabbr Assistant",
 	"version": "0.0.0",
-	"description": "An awesome new browser extension",
-	"homepage_url": "https://github.com/awesome-templates/browser-extension-template",
-	"manifest_version": 2,
+	"description": "A browser extension to facilitate games of backstabbr.",
+	"homepage_url": "https://github.com/bo-carey/backstabbr-assistant",
+	"manifest_version": 1,
 	"minimum_chrome_version": "74",
 	"applications": {
 		"gecko": {
@@ -12,7 +12,7 @@
 		}
 	},
 	"icons": {
-		"128": "icon.png"
+		"16": "icon.png"
 	},
 	"permissions": [
 		"storage"
