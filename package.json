@@ -1,12 +1,15 @@
 {
 	"private": true,
 	"scripts": {
-		"build": "parcel build source/manifest.json --no-content-hash --no-source-maps --no-cache --detailed-report 0",
+		"build": "tsc --noEmit && parcel build source/manifest.json --no-content-hash --no-source-maps --no-cache --detailed-report 0",
 		"lint": "run-p lint:*",
 		"lint-fix": "run-p 'lint:* -- --fix'",
+		"lint:css": "stylelint source/**/*.css",
+		"lint:js": "xo",
 		"test": "run-p lint:* build",
 		"watch": "parcel watch source/manifest.json --no-cache --no-hmr",
-		"check": "tsc --noEmit"
+		"check": "tsc --noEmit",
+		"start": "web-ext run -s dist"
 	},
 	"browserslist": [
 		"last 1 Chrome version",
@@ -19,12 +22,33 @@
 	"devDependencies": {
 		"@parcel/config-webextension": "^2.0.0-rc.0",
 		"@parcel/transformer-image": "^2.0.0-rc.0",
+		"@parcel/transformer-typescript-tsc": "^2.0.0-beta.1",
 		"@types/chrome": "0.0.158",
 		"@types/node": "^16.9.6",
 		"@types/webextension-polyfill": "^0.8.0",
+		"lint": "^0.7.0",
 		"npm-run-all": "^4.1.5",
 		"parcel": "^2.0.0-rc.0",
+		"stylelint": "^13.13.1",
+		"stylelint-config-xo": "^0.20.0",
 		"typescript": "^4.4.3",
-		"web-ext-types": "^3.2.1"
+		"web-ext-types": "^3.2.1",
+		"xo": "^0.44.0"
+	},
+	"xo": {
+		"envs": [
+			"browser"
+		],
+		"rules": {
+			"no-unused-vars": [
+				"error",
+				{
+					"varsIgnorePattern": "browser"
+				}
+			]
+		}
+	},
+	"stylelint": {
+		"extends": "stylelint-config-xo"
 	}
 }
