@@ -1,7 +1,6 @@
 import users, {User} from './users';
 import Countries from './countries';
-import browser from 'webextension-polyfill';
-import { rejects } from 'assert';
+import { cleanText, waitForElementToExist } from './utilities';
 
 /**
  * Looks through the page to see if user data is available in 
@@ -26,10 +25,10 @@ const gatherData = async () => {
 	for (let i = 0; i < userListNodes.children.length; i++) {
 		const li = userListNodes.children[i] as HTMLElement;
 		const anchor = li.children[0] as HTMLAnchorElement;
-		const id = anchor.textContent.replace(/(^\s+)|(\s+$)/gm, "") || "";
+		const id = cleanText(anchor.textContent) || "";
 		const name = id.replace(/#\d+/, "");
 		const url = anchor.href || "";
-		const country = li.lastChild.textContent.replace(/(^\s+)|(\s+$)/gm, "") || "";
+		const country = cleanText(li.lastChild.textContent) || "";
 		userData.push({id, name, url, country});
 	}
 	await users.set(gameName, userData);
@@ -50,41 +49,6 @@ const displayData = (gameName) => {
 			});
 		})
 }
-
-/**
- * Queries a DOM element until it exists or a timeout is triggered.
- * @param {string} query - the string to pass to the query
- * @param {number} [expireTime = 30000] - time in ms to wait before ending execution
- * @returns {Promise<HTMLElement>}
- */
-const waitForElementToExist = (query: string, expireTime: number = 30000): Promise<HTMLElement> => {
-	console.dir("waitForElementToExist");
-	return new Promise((res, rej) => {
-		let timeout = null;
-		let interval = null;
-		interval = setInterval(() => {
-			const element = document.querySelector<HTMLElement>(query);
-			if (element != null) {
-				res(element)
-				clearInterval(interval);
-				clearTimeout(timeout);
-			}
-		}, 500);
-		if (expireTime) {
-			timeout = setTimeout(() => {
-				rej(`waitForElementToExist::waited ${expireTime}ms - time expired`);
-				clearInterval(interval);
-			}, expireTime);
-		}
-	})
-}
-
-/**
- * Removes trailing whitespace from strings
- * @param {string} text 
- * @returns {string}
- */
-const cleanText = (text: string = ""): string => text.replace(/(^\s+)|(\s+$)/gm, "");
 
 const infoDiv = document.getElementById("info") as HTMLDivElement;
 if (infoDiv != null) {

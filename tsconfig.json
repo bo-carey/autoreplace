@@ -2,6 +2,7 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "jsxImportSource": "preact",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "isolatedModules": true
   }
 }

@@ -31,7 +31,6 @@
 		"npm-run-all": "^4.1.5",
 		"parcel": "^2.0.0-rc.0",
 		"parcel-bundler": "^1.12.5",
-		"parcel-plugin-web-ext-tool": "^0.2.2",
 		"stylelint": "^13.13.1",
 		"stylelint-config-xo": "^0.20.0",
 		"typescript": "^4.4.3",

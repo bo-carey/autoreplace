@@ -20,8 +20,7 @@
 	"content_scripts": [
     {
       "matches": ["*://*.backstabbr.com/game/*"],
-      "js": ["backstabbr.ts"],
-			"run_at": "document_end"
+      "js": ["backstabbr.ts", "users.ts", "utilities.ts", "countries.ts"]
     }
   ]
 }
