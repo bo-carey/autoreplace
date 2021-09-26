@@ -35,6 +35,22 @@ const gatherData = async () => {
 	await users.set(gameName, userData);
 }
 
+const displayData = (gameName) => {
+	waitForElementToExist(".playerlist")
+		.then(async (playerCountry) => {
+			const userList = await users.get(gameName);
+			if (!userList) return;
+			const countryList = document.getElementsByClassName("country") as HTMLCollection;
+			if (!countryList.length) return;
+			Array.from(countryList).forEach(country => {
+				const newDiv = document.createElement('div');
+				const nameSpan = document.createTextNode("Name");
+				newDiv.appendChild(nameSpan);
+				country.insertAdjacentElement("afterend", newDiv)
+			});
+		})
+}
+
 /**
  * Queries a DOM element until it exists or a timeout is triggered.
  * @param {string} query - the string to pass to the query
