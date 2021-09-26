@@ -1,7 +1,7 @@
 import users, {User} from './users';
 import Countries from './countries';
 import browser from 'webextension-polyfill';
-
+import { rejects } from 'assert';
 
 /**
  * Looks through the page to see if user data is available in 
@@ -35,15 +35,37 @@ const attemptToGatherData = async () => {
 	await users.set(gameName, userData);
 }
 
-const waitForElementToExist = (querySelector: string, callback: Function): void => {
-	console.dir('waitForElementToExist')
-	const interval = setInterval(() => {
-		if (document.querySelector<HTMLElement>(querySelector) != null) {
-			callback();
-			clearInterval(interval);
+/**
+ * Queries a DOM element until it exists or a timeout is triggered.
+ * @param {string} query - the string to pass to the query
+ * @param {number} [expireTime = 30000] - time in ms to wait before ending execution
+ * @returns {Promise<HTMLElement>}
+ */
+const waitForElementToExist = (query: string, expireTime: number = 30000): Promise<HTMLElement> => {
+	console.dir("waitForElementToExist");
+	return new Promise((res, rej) => {
+		let timeout = null;
+		let interval = null;
+		interval = setInterval(() => {
+			const element = document.querySelector<HTMLElement>(query);
+			if (element != null) {
+				res(element)
+				clearInterval(interval);
+				clearTimeout(timeout);
+			}
+		}, 500);
+		if (expireTime) {
+			timeout = setTimeout(() => {
+				rej(`waitForElementToExist::waited ${expireTime}ms - time expired`);
+				clearInterval(interval);
+			}, expireTime);
 		}
-	}, 500);
+	})
 }
 
 const infoDiv = document.getElementById("info") as HTMLDivElement;
-if (infoDiv != null) waitForElementToExist("table > tbody > tr", attemptToGatherData)
+if (infoDiv != null) {
+	waitForElementToExist("table > tbody > tr")
+		.then(element => attemptToGatherData())
+		.catch(err => console.error(err))
+}
