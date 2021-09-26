@@ -63,6 +63,13 @@ const waitForElementToExist = (query: string, expireTime: number = 30000): Promi
 	})
 }
 
+/**
+ * Removes trailing whitespace from strings
+ * @param {string} text 
+ * @returns {string}
+ */
+const cleanText = (text: string = ""): string => text.replace(/(^\s+)|(\s+$)/gm, "");
+
 const infoDiv = document.getElementById("info") as HTMLDivElement;
 if (infoDiv != null) {
 	waitForElementToExist("table > tbody > tr")
