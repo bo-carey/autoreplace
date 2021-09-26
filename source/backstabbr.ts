@@ -8,7 +8,7 @@ import { rejects } from 'assert';
  * the info table. If it is, parses user information from
  * the info table and saves it in the browser storage sync.
  */
-const attemptToGatherData = async () => {
+const gatherData = async () => {
 	const tableRows = document.querySelectorAll("table > tbody > tr") as NodeList;
 	if (!tableRows) return;
 	let gameRow = null as HTMLElement;
@@ -66,6 +66,6 @@ const waitForElementToExist = (query: string, expireTime: number = 30000): Promi
 const infoDiv = document.getElementById("info") as HTMLDivElement;
 if (infoDiv != null) {
 	waitForElementToExist("table > tbody > tr")
-		.then(element => attemptToGatherData())
+		.then(element => gatherData())
 		.catch(err => console.error(err))
 }
