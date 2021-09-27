@@ -13,10 +13,10 @@ jobs:
       fail-fast: false
     steps:
       - name: Install modules
-        run: npm i
-      - name: Check Formatting
-        run: npm run prettier
+        run: npm ci
       - name: Run Lint
         run: npm run lint
+      - name: Run TSLint
+        run: npm run ts:lint
 env:
   CI: true
