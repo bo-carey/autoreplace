@@ -1,57 +1,56 @@
 {
-	"private": true,
-	"scripts": {
-		"build": "tsc --noEmit && parcel build source/manifest.json --no-content-hash --no-source-maps --no-cache --detailed-report 0",
-		"lint": "run-p lint:*",
-		"lint-fix": "run-p 'lint:* -- --fix'",
-		"lint:css": "stylelint source/**/*.css",
-		"lint:js": "xo",
-		"test": "run-p lint:* build",
-		"watch": "parcel watch source/manifest.json --no-cache --no-hmr",
-		"check": "tsc --noEmit",
-		"start": "web-ext run -s dist",
-		"setup": "npm i --global web-ext && npm i"
-	},
-	"browserslist": [
-		"last 1 Chrome version",
-		"last 1 Firefox version"
-	],
-	"dependencies": {
-		"webext-options-sync": "^2.0.1",
-		"webextension-polyfill": "^0.8.0"
-	},
-	"devDependencies": {
-		"@parcel/config-webextension": "^2.0.0-rc.0",
-		"@parcel/transformer-image": "^2.0.0-rc.0",
-		"@parcel/transformer-typescript-tsc": "^2.0.0-beta.1",
-		"@types/chrome": "0.0.158",
-		"@types/node": "^16.9.6",
-		"@types/webextension-polyfill": "^0.8.0",
-		"lint": "^0.7.0",
-		"npm-run-all": "^4.1.5",
-		"parcel": "^2.0.0-rc.0",
-		"parcel-bundler": "^1.12.5",
-		"stylelint": "^13.13.1",
-		"stylelint-config-xo": "^0.20.0",
-		"typescript": "^4.4.3",
-		"web-ext": "^6.4.0",
-		"web-ext-types": "^3.2.1",
-		"xo": "^0.44.0"
-	},
-	"xo": {
-		"envs": [
-			"browser"
-		],
-		"rules": {
-			"no-unused-vars": [
-				"error",
-				{
-					"varsIgnorePattern": "browser"
-				}
-			]
-		}
-	},
-	"stylelint": {
-		"extends": "stylelint-config-xo"
-	}
+  "private": true,
+  "icon_source": "Icons made by [photo3idea_studio](https://www.flaticon.com/authors/photo3idea-studio)",
+  "targets": {
+    "webext-dev": {
+      "sourceMap": {
+        "inline": true,
+        "inlineSources": true
+      }
+    },
+    "webext-prod": {}
+  },
+  "scripts": {
+    "build": "npm run clean && npm run copy-files && npm run ts:build",
+    "clean": "rm -rf -- dist && mkdir dist",
+    "copy-files": "npm run copy-files:manifest && npm run copy-files:images",
+    "copy-files:manifest": "cp ./src/manifest.json ./dist/manifest.json",
+    "copy-files:images": "cp ./src/images ./dist/images -r",
+    "ext": "web-ext run -s src",
+    "ext:lint": "web-ext lint -s src",
+    "format": "npm run pretter:fix && npm run lint:fix && npm run ext:lint",
+    "lint": "eslint src",
+    "lint:fix": "npm run lint --fix",
+    "prettier": "prettier src -c",
+    "prettier:fix": "npm run prettier -- --write",
+    "ts:build": "tsc -b"
+  },
+  "browserslist": [
+    "last 1 Chrome version",
+    "last 1 Firefox version"
+  ],
+  "dependencies": {
+    "webext-options-sync": "^2.0.1"
+  },
+  "devDependencies": {
+    "@parcel/config-webextension": "^2.0.0-nightly.2151",
+    "@types/chrome": "0.0.158",
+    "@types/node": "^16.9.6",
+    "@types/webextension-polyfill": "^0.8.0",
+    "@typescript-eslint/eslint-plugin": "^4.31.2",
+    "@typescript-eslint/parser": "^4.31.2",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "lint": "^0.7.0",
+    "npm-run-all": "^4.1.5",
+    "parcel": "^2.0.0-rc.0",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.3",
+    "web-ext": "^6.4.0",
+    "web-ext-types": "^3.2.1",
+    "webextension-polyfill": "^0.8.0"
+  },
+  "webExt": {
+    "sourceDir": "dist"
+  }
 }

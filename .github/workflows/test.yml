@@ -1,4 +1,4 @@
-name: Test
+name: 'Test'
 
 on:
   - pull_request
@@ -6,8 +6,16 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    name: CI
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
     steps:
-      - uses: actions/checkout@v2
-      - run: npm install
-      - run: npm test
+      - name: Install modules
+        run: npm ci
+      - name: Check Formatting
+        run: npm run prettier
+        if: matrix.command == 'lint'
+      - name: Run Lint
+        run: npm run lint
+        if: matrix.command == 'lint'
