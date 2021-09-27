@@ -13,10 +13,10 @@ jobs:
       fail-fast: false
     steps:
       - name: Install modules
-        run: npm ci
+        run: npm i
       - name: Check Formatting
         run: npm run prettier
-        if: matrix.command == 'lint'
       - name: Run Lint
         run: npm run lint
-        if: matrix.command == 'lint'
+env:
+  CI: true
