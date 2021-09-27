@@ -20,11 +20,12 @@
     "ext": "web-ext run -s src",
     "ext:lint": "web-ext lint -s src",
     "format": "npm run pretter:fix && npm run lint:fix && npm run ext:lint",
-    "lint": "eslint src",
+    "lint": "npx eslint src",
     "lint:fix": "npm run lint --fix",
-    "prettier": "prettier src -c",
+    "prettier": "npx prettier src -c",
     "prettier:fix": "npm run prettier -- --write",
-    "ts:build": "tsc -b"
+    "ts:build": "tsc -b",
+    "ts:check": "tsc --noEmit"
   },
   "browserslist": [
     "last 1 Chrome version",
