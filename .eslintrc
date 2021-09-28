@@ -1,40 +1,35 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true
-    },
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "allowAutomaticSingleRunInference": true,
-        "ecmaVersion": 12,
-        "sourceType": "module",
-        "project": "./tsconfig.json"
-    },
-    "plugins": [
-        "@typescript-eslint"
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "allowAutomaticSingleRunInference": true,
+    "ecmaVersion": 12,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["@typescript-eslint"],
+  "extends": ["plugin:@typescript-eslint/recommended", "prettier"],
+  "rules": {
+    "@typescript-eslint/naming-convention": [
+      "warn",
+      {
+        "selector": "variableLike",
+        "format": ["camelCase", "UPPER_CASE", "PascalCase"],
+        "leadingUnderscore": "allow"
+      }
     ],
-    "extends": [
-      "plugin:@typescript-eslint/recommended",
-      "prettier"
+    "@typescript-eslint/ban-types": "warn",
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "@typescript-eslint/explicit-function-return-type": [
+      "off",
+      {
+        "allowExpressions": true,
+        "allowTypedFunctionExpressions": true
+      }
     ],
-    "rules": {
-      "@typescript-eslint/naming-convention": [
-        "warn",
-        {
-          "selector": "variableLike",
-          "format": ["camelCase", "UPPER_CASE", "PascalCase"],
-          "leadingUnderscore": "allow"
-        }
-      ],
-      "@typescript-eslint/ban-types": "warn",
-      "@typescript-eslint/ban-ts-comment": "warn",
-      "@typescript-eslint/explicit-function-return-type": [
-        "off",
-        {
-          "allowExpressions": true,
-          "allowTypedFunctionExpressions": true
-        }
-      ],
     "no-empty-function": 0,
     "@typescript-eslint/no-empty-function": 0,
 
@@ -65,5 +60,5 @@
     "max-statements": ["warn", 15],
     "max-params": ["warn", 5],
     "complexity": ["warn", 10]
-    }
+  }
 }

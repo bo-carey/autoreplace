@@ -15,11 +15,8 @@ jobs:
         command: ['lint', 'test']
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies 
+      - name: Install dependencies
         run: npm ci
-      - name: Validate manifest
-        run: npm run ext:lint
-        if: matrix.command == 'lint'
       - name: Run Lint
         run: npm run lint
         if: matrix.command == 'lint'

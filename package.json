@@ -11,20 +11,18 @@
     "webext-prod": {}
   },
   "scripts": {
-    "build": "npm run clean && npm run copy-files && npm run ts:build",
-    "clean": "rm -rf -- dist && mkdir dist",
-    "copy-files": "npm run copy-files:manifest && npm run copy-files:images",
-    "copy-files:manifest": "cp ./src/manifest.json ./dist/manifest.json",
-    "copy-files:images": "cp ./src/images ./dist/images -r",
-    "ext": "npx web-ext run -s src",
-    "ext:lint": "npx web-ext lint -s src",
+    "build": "npm run build:firefox && npm run build:chrome",
+    "build:chrome": "NODE_ENV=production BUILD_TARGET=chrome webpack",
+    "build:firefox": "NODE_ENV=production BUILD_TARGET=firefox webpack",
+    "dev": "npm run dev:firefox && npm run dev:chrome",
+    "dev:chrome": "BUILD_TARGET=chrome webpack --watch",
+    "dev:firefox": "BUILD_TARGET=firefox webpack --watch",
     "format": "npm run pretter:fix && npm run lint:fix && npm run ext:lint",
     "lint": "npx eslint src",
     "lint:fix": "npm run lint --fix",
-    "nodemon:start": "nodemon --watch 'src/**.ts' --watch 'src/scripts/**.ts' --ext 'ts,json' --exec 'npm run ts:build'",
     "prettier": "npx prettier src -c",
     "prettier:fix": "npm run prettier -- --write",
-    "start": "npm run build && npm run nodemon:start",
+    "start": "npm run build:firefox && npm run build:chrome",
     "ts:build": "tsc -b",
     "ts:check": "tsc --noEmit"
   },
@@ -41,18 +39,18 @@
     "@types/webextension-polyfill": "^0.8.0",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
+    "copy-webpack-plugin": "^9.0.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "lint": "^0.7.0",
-    "nodemon": "^2.0.13",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.4.1",
+    "ts-loader": "^9.2.5",
     "typescript": "^4.4.3",
-    "web-ext": "^6.4.0",
-    "web-ext-types": "^3.2.1",
-    "webextension-polyfill": "^0.8.0"
-  },
-  "webExt": {
-    "sourceDir": "dist"
+    "webextension-polyfill": "^0.8.0",
+    "webpack": "^5.54.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^4.3.0",
+    "webpack-extension-reloader": "^1.1.4"
   }
 }
