@@ -14,14 +14,10 @@
     "128": "./images/tank-128.png"
   },
   "permissions": ["storage"],
-  "background": {
-    "persistant": false,
-    "scripts": ["index.ts"]
-  },
   "content_scripts": [
     {
       "matches": ["*://*.backstabbr.com/game/*"],
-      "js": ["browser-polyfill.js", "index.ts"],
+      "js": ["index.js"],
       "run_at": "document_end"
     }
   ]

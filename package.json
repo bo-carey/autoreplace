@@ -1,7 +1,6 @@
 {
   "private": true,
   "name": "backstabbr-assistant",
-  "icon_source": "Icons made by [photo3idea_studio](https://www.flaticon.com/authors/photo3idea-studio)",
   "targets": {
     "webext-dev": {
       "sourceMap": {
@@ -17,13 +16,15 @@
     "copy-files": "npm run copy-files:manifest && npm run copy-files:images",
     "copy-files:manifest": "cp ./src/manifest.json ./dist/manifest.json",
     "copy-files:images": "cp ./src/images ./dist/images -r",
-    "ext": "web-ext run -s src",
-    "ext:lint": "web-ext lint -s src",
+    "ext": "npx web-ext run -s src",
+    "ext:lint": "npx web-ext lint -s src",
     "format": "npm run pretter:fix && npm run lint:fix && npm run ext:lint",
     "lint": "npx eslint src",
     "lint:fix": "npm run lint --fix",
+    "nodemon:start": "nodemon --watch 'src/**.ts' --watch 'src/scripts/**.ts' --ext 'ts,json' --exec 'npm run ts:build'",
     "prettier": "npx prettier src -c",
     "prettier:fix": "npm run prettier -- --write",
+    "start": "npm run build && npm run nodemon:start",
     "ts:build": "tsc -b",
     "ts:check": "tsc --noEmit"
   },
@@ -43,6 +44,7 @@
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "lint": "^0.7.0",
+    "nodemon": "^2.0.13",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.4.1",
     "typescript": "^4.4.3",
