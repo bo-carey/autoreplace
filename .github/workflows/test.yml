@@ -11,13 +11,17 @@ jobs:
     timeout-minutes: 90
     strategy:
       fail-fast: false
+      matrix:
+        command: ['lint', 'test']
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies 
         run: npm ci
       - name: Run Lint
         run: npm run lint
+        if: matrix.command == 'lint'
       - name: Run TS checks
         run: npm run ts:check
+        if: matrix.command == 'test'
 env:
   CI: true
