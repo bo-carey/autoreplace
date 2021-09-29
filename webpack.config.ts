@@ -3,8 +3,6 @@ import * as webpack from 'webpack';
 import 'webpack-dev-server';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const ExtensionReloader = require('webpack-extension-reloader');
 
 const buildTarget: string = process.env.BUILD_TARGET || 'firefox';
 const isProduction: boolean = process.env.NODE_ENV === 'production';
@@ -70,17 +68,6 @@ if (isProduction) {
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,
-    }),
-  );
-}
-
-if (!isProduction) {
-  config?.plugins?.push(
-    new ExtensionReloader({
-      reloadPage: true,
-      entries: {
-        extensionPage: 'main',
-      },
     }),
   );
 }
