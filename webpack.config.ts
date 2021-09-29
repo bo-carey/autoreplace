@@ -1,23 +1,28 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-require('dotenv/config');
-
-const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const webpack = require('webpack');
+import * as path from 'path';
+import * as webpack from 'webpack';
+import 'webpack-dev-server';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const ExtensionReloader = require('webpack-extension-reloader');
 
-const buildTarget = process.env.BUILD_TARGET || 'firefox';
-const isProduction = process.env.NODE_ENV === 'production';
+const buildTarget: string = process.env.BUILD_TARGET || 'firefox';
+const isProduction: boolean = process.env.NODE_ENV === 'production';
 
-const config = {
+interface ExtensionConfiguration extends webpack.Configuration {
+  devServer: {
+    overlay: boolean;
+  };
+}
+
+const config: ExtensionConfiguration = {
   entry: {
     main: ['./src/index.ts'],
   },
   output: {
     path: path.resolve('dist', buildTarget),
     publicPath: '/',
-    filename: isWeb ? '[name].[contenthash:12].js' : '[name].js',
+    filename: '[name].js',
   },
   mode: isProduction ? 'production' : 'development',
   resolve: {
@@ -30,7 +35,7 @@ const config = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: isWeb ? '[name].[contenthash:12].[ext]' : '[name].[ext]',
+          name: '[name].[ext]',
         },
       },
       {
@@ -61,7 +66,7 @@ const config = {
 };
 
 if (isProduction) {
-  config.plugins.push(
+  config?.plugins?.push(
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,
@@ -69,8 +74,8 @@ if (isProduction) {
   );
 }
 
-if (!isWeb && !isProduction) {
-  config.plugins.push(
+if (!isProduction) {
+  config?.plugins?.push(
     new ExtensionReloader({
       reloadPage: true,
       entries: {
