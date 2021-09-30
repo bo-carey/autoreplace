@@ -13,8 +13,8 @@ const gatherData = (tableRows: NodeList): Promise<string> => {
   return new Promise(async (resolve, reject) => {
     if (!tableRows) return reject('gatherData::tableRows is falsey');
     let [gameRow, userRow]: HTMLElement[] = [];
-    Array.from(tableRows as NodeList).forEach((el: Node) => {
-      const header = (el as HTMLElement).querySelector('th') as HTMLElement;
+    Array.from(tableRows).forEach((el: Node) => {
+      const header = (el as HTMLElement).querySelector<HTMLElement>('th');
       if (header && header.textContent === 'Players') userRow = el as HTMLElement;
       if (header && header.textContent === 'Game Name') gameRow = el as HTMLElement;
     });

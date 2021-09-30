@@ -1,19 +1,18 @@
 import * as path from 'path';
-import * as webpack from 'webpack';
-import 'webpack-dev-server';
+import { Configuration as WebpackConfiguration } from 'webpack';
+import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+// import { ZipPlugin } from 'zip-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 const buildTarget: string = process.env.BUILD_TARGET || 'firefox';
 const isProduction: boolean = process.env.NODE_ENV === 'production';
 
-interface ExtensionConfiguration extends webpack.Configuration {
-  devServer: {
-    overlay: boolean;
-  };
+interface Configuration extends WebpackConfiguration {
+  devServer?: WebpackDevServerConfiguration;
 }
 
-const config: ExtensionConfiguration = {
+const config: Configuration = {
   entry: {
     main: ['./src/index.ts'],
   },
@@ -49,24 +48,19 @@ const config: ExtensionConfiguration = {
     new CopyWebpackPlugin({
       patterns: [{ from: 'target/shared/' }, { from: `target/${buildTarget}/` }],
     }),
+    // new ZipPlugin({}),
   ],
   devServer: {
-    overlay: true,
+    watchFiles: ['src/index.ts', 'src/**/*.ts', 'target/**/*.json'],
   },
   devtool: !isProduction && 'source-map',
   stats: {
     warnings: false,
   },
+  optimization: {
+    minimize: isProduction,
+  },
 };
-
-if (isProduction) {
-  config?.plugins?.push(
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false,
-    }),
-  );
-}
 
 module.exports = config;
 // Thanks to https://github.com/joelshepherd/tabliss for demonstrating this.
