@@ -14,7 +14,6 @@
     "build": "npm run build:firefox && npm run build:chrome",
     "build:chrome": "NODE_ENV=production BUILD_TARGET=chrome webpack",
     "build:firefox": "NODE_ENV=production BUILD_TARGET=firefox webpack",
-    "dev": "npm run dev:firefox",
     "dev:chrome": "BUILD_TARGET=chrome webpack --watch",
     "dev:firefox": "BUILD_TARGET=firefox webpack --watch",
     "format": "npm run pretter:fix && npm run lint:fix && npm run ext:lint",
@@ -36,6 +35,7 @@
   "devDependencies": {
     "@types/chrome": "0.0.158",
     "@types/copy-webpack-plugin": "^8.0.1",
+    "@types/firefox": "^0.0.31",
     "@types/node": "^16.10.1",
     "@types/webextension-polyfill": "^0.8.0",
     "@types/webpack": "^5.28.0",

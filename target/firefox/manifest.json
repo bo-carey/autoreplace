@@ -4,20 +4,26 @@
   "description": "A browser extension to facilitate games of backstabbr.",
   "homepage_url": "https://github.com/bo-carey/backstabbr-assistant",
   "manifest_version": 2,
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "37e43dcc637da45ab8dc2bc2251f0e9a5e4e83f9@temporary-addon",
+      "strict_min_version": "48.0"
+    }
+  },
   "icons": {
-    "16": "./images/tank-16.png",
-    "24": "./images/tank-24.png",
-    "32": "./images/tank-32.png",
-    "48": "./images/tank-48.png",
-    "64": "./images/tank-64.png",
-    "128": "./images/tank-128.png"
+    "16": "./icons/16.png",
+    "24": "./icons/24.png",
+    "32": "./icons/32.png",
+    "48": "./icons/48.png",
+    "64": "./icons/64.png",
+    "128": "./icons/128.png"
   },
   "permissions": ["storage"],
   "content_scripts": [
     {
       "matches": ["*://*.backstabbr.com/game/*"],
-      "js": ["index.js"],
-      "run_at": "document_end"
+      "js": ["main.js"],
+      "run_at": "document_idle"
     }
   ]
 }

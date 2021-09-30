@@ -18,7 +18,7 @@ const config: ExtensionConfiguration = {
     main: ['./src/index.ts'],
   },
   output: {
-    path: path.resolve('dist', buildTarget),
+    path: path.resolve(`dist/${buildTarget}`),
     publicPath: '/',
     filename: '[name].js',
   },
@@ -30,6 +30,7 @@ const config: ExtensionConfiguration = {
     rules: [
       {
         test: /\.(gif|jpe?g|png)$/,
+        include: path.resolve('target/shared/icons/'),
         loader: 'url-loader',
         options: {
           limit: 10000,
@@ -38,7 +39,7 @@ const config: ExtensionConfiguration = {
       },
       {
         test: /\.(ts|tsx)$/,
-        include: path.resolve('./src'),
+        include: path.resolve('src/'),
         loader: 'ts-loader',
       },
     ],
@@ -46,18 +47,13 @@ const config: ExtensionConfiguration = {
   plugins: [
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
-      patterns: [
-        { from: 'target/shared' },
-        {
-          from: `target/${buildTarget}`,
-        },
-      ],
+      patterns: [{ from: 'target/shared/' }, { from: `target/${buildTarget}/` }],
     }),
   ],
   devServer: {
     overlay: true,
   },
-  devtool: 'source-map',
+  devtool: !isProduction && 'source-map',
   stats: {
     warnings: false,
   },

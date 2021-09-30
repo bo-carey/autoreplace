@@ -40,7 +40,7 @@
     "func-names": ["error", "always"],
     "max-len": [
       "error",
-      120,
+      95,
       2,
       {
         "ignoreComments": false,
@@ -57,7 +57,7 @@
     "import/prefer-default-export": 0,
     // Code Quality
     "max-lines": ["warn", 250],
-    "max-statements": ["warn", 15],
+    "max-statements": ["warn", 30],
     "max-params": ["warn", 5],
     "complexity": ["warn", 10]
   }
