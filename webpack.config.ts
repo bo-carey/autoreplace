@@ -2,7 +2,6 @@ import * as path from 'path';
 import { Configuration as WebpackConfiguration } from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-// import { ZipPlugin } from 'zip-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 const buildTarget: string = process.env.BUILD_TARGET || 'firefox';
@@ -17,9 +16,9 @@ const config: Configuration = {
     main: ['./src/index.ts'],
   },
   output: {
-    path: path.resolve(`dist/${buildTarget}`),
-    publicPath: '/',
-    filename: '[name].js',
+    path: path.resolve(__dirname, `dist/${buildTarget}`),
+    filename: 'main.js',
+    clean: true,
   },
   mode: isProduction ? 'production' : 'development',
   resolve: {
@@ -38,21 +37,20 @@ const config: Configuration = {
       },
       {
         test: /\.(ts|tsx)$/,
-        include: path.resolve('src/'),
+        include: path.resolve(__dirname, 'src'),
         loader: 'ts-loader',
       },
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(),
+    // new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [{ from: 'target/shared/' }, { from: `target/${buildTarget}/` }],
     }),
-    // new ZipPlugin({}),
   ],
-  devServer: {
-    watchFiles: ['src/index.ts', 'src/**/*.ts', 'target/**/*.json'],
-  },
+  // devServer: {
+  //   watchFiles: ['src/index.ts'],
+  // },
   devtool: !isProduction && 'source-map',
   stats: {
     warnings: false,

@@ -15,6 +15,8 @@ const gatherData = (tableRows: NodeList): Promise<string> => {
     let [gameRow, userRow]: HTMLElement[] = [];
     Array.from(tableRows).forEach((el: Node) => {
       const header = (el as HTMLElement).querySelector<HTMLElement>('th');
+      console.log(`gatherData::header`, header);
+      console.log(`gatherData::header.textContent`, header?.textContent);
       if (header && header.textContent === 'Players') userRow = el as HTMLElement;
       if (header && header.textContent === 'Game Name') gameRow = el as HTMLElement;
     });
