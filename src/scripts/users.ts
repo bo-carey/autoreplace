@@ -25,7 +25,8 @@ const get = (game: string): Promise<Record<string, User[]>> => browser.storage.s
  * @param {string} game - the name of the game, used as a key
  * @param {User[]} users - the user array
  */
-const set = (game: string, users: User[]): Promise<void> => browser.storage.sync.set({ [game]: users });
+const set = (game: string, users: User[]): Promise<void> =>
+  browser.storage.sync.set({ [game]: users });
 
 export default {
   reset,
