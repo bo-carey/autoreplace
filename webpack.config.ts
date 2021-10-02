@@ -1,7 +1,6 @@
 import * as path from 'path';
 import { Configuration as WebpackConfiguration } from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 const buildTarget: string = process.env.BUILD_TARGET || 'firefox';
@@ -43,14 +42,10 @@ const config: Configuration = {
     ],
   },
   plugins: [
-    // new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [{ from: 'target/shared/' }, { from: `target/${buildTarget}/` }],
     }),
   ],
-  // devServer: {
-  //   watchFiles: ['src/index.ts'],
-  // },
   devtool: !isProduction && 'source-map',
   stats: {
     warnings: false,

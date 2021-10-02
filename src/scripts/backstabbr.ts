@@ -41,7 +41,7 @@ const gatherData = (tableRows: NodeList): Promise<string> => {
 };
 
 const displayData = (gameName: string) => {
-  waitForElementToExist('.playerlist').then(async (playerCountry) => {
+  waitForElementToExist('.playerlist').then(async () => {
     const userList = await users.get(gameName);
     if (!userList) return;
     const countryList = document.getElementsByClassName('country') as HTMLCollection;
