@@ -12,6 +12,7 @@
   },
   "plugins": ["@typescript-eslint"],
   "extends": ["plugin:@typescript-eslint/recommended", "prettier"],
+  "ignorePatterns": ["README.md"],
   "rules": {
     "@typescript-eslint/naming-convention": [
       "warn",
