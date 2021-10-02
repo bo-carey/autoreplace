@@ -6,4 +6,5 @@ const enum Countries {
   Austria = 'Austria',
   Turkey = 'Turkey',
 }
+
 export default Countries;
