@@ -1,14 +1,8 @@
 import * as path from 'path';
-import { Configuration as WebpackConfiguration } from 'webpack';
-import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+import { Configuration } from 'webpack';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 const buildTarget: string = process.env.BUILD_TARGET || 'firefox';
-const isProduction: boolean = process.env.NODE_ENV === 'production';
-
-interface Configuration extends WebpackConfiguration {
-  devServer?: WebpackDevServerConfiguration;
-}
 
 const config: Configuration = {
   entry: {
@@ -19,7 +13,6 @@ const config: Configuration = {
     filename: 'main.js',
     clean: true,
   },
-  mode: isProduction ? 'production' : 'development',
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
@@ -38,6 +31,12 @@ const config: Configuration = {
         test: /\.(ts|tsx)$/,
         include: path.resolve(__dirname, 'src'),
         loader: 'ts-loader',
+        options: {
+          configFile: path.resolve('./tsconfig.json'),
+          compilerOptions: {
+            noEmit: false,
+          },
+        },
       },
     ],
   },
@@ -46,14 +45,9 @@ const config: Configuration = {
       patterns: [{ from: 'target/shared/' }, { from: `target/${buildTarget}/` }],
     }),
   ],
-  devtool: !isProduction && 'source-map',
   stats: {
     warnings: false,
   },
-  optimization: {
-    minimize: isProduction,
-  },
 };
 
-module.exports = config;
-// Thanks to https://github.com/joelshepherd/tabliss for demonstrating this.
+export default config;

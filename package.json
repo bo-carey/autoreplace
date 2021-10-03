@@ -2,19 +2,21 @@
   "private": true,
   "name": "backstabbr-assistant",
   "scripts": {
-    "build": "npm run build:firefox && npm run build:chrome",
-    "build:chrome": "NODE_ENV=production BUILD_TARGET=chrome webpack",
-    "build:firefox": "NODE_ENV=production BUILD_TARGET=firefox webpack",
-    "dev:chrome": "BUILD_TARGET=chrome webpack --watch --progress",
-    "dev:firefox": "BUILD_TARGET=firefox webpack --watch",
+    "build": "npx npm-p build:*",
+    "build:chrome": "BUILD_TARGET=chrome webpack --config webpack.prod.ts",
+    "build:firefox": "BUILD_TARGET=firefox webpack --config webpack.prod.ts",
+    "dev:chrome": "BUILD_TARGET=chrome webpack --watch --config webpack.dev.ts",
+    "dev:firefox": "BUILD_TARGET=firefox webpack --watch --config webpack.dev.ts",
     "format": "npm run pretter:fix && npm run lint:fix && npm run ext:lint",
     "lint": "npx eslint src",
     "lint:fix": "npm run lint --fix",
     "prettier": "npx prettier src -c",
     "prettier:fix": "npm run prettier -- --write",
-    "start": "npm run build:firefox && npm run build:chrome",
-    "ts:build": "tsc -b",
-    "ts:check": "tsc --noEmit"
+    "ts:check": "tsc --noEmit",
+    "configtest": "npx run-p configtest:*",
+    "configtest:webpack-common": "npx webpack configtest ./webpack.common.ts ",
+    "configtest:webpack-dev": "npx webpack configtest ./webpack.dev.ts",
+    "configtest:webpack-prod": "npx webpack configtest ./webpack.prod.ts"
   },
   "browserslist": [
     "last 1 Chrome version",
@@ -46,6 +48,7 @@
     "webextension-polyfill": "^0.8.0",
     "webpack": "^5.54.0",
     "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^4.3.0"
+    "webpack-dev-server": "^4.3.0",
+    "webpack-merge": "^5.8.0"
   }
 }
