@@ -26,5 +26,8 @@ jobs:
       - name: Validate webpack config
         run: npm run configtest
         if: matrix.command == 'test'
+      - name: Build and validate extension
+        run: npm run validate
+        if: matrix.command == 'test'
 env:
   CI: true

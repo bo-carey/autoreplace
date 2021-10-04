@@ -2,9 +2,13 @@
   "private": true,
   "name": "backstabbr-assistant",
   "scripts": {
-    "build": "npx npm-p build:*",
+    "build": "npx run-p build:*",
     "build:chrome": "BUILD_TARGET=chrome webpack --config webpack.prod.ts",
     "build:firefox": "BUILD_TARGET=firefox webpack --config webpack.prod.ts",
+    "configtest": "npx run-p configtest:*",
+    "configtest:webpack-common": "npx webpack configtest ./webpack.common.ts ",
+    "configtest:webpack-dev": "npx webpack configtest ./webpack.dev.ts",
+    "configtest:webpack-prod": "npx webpack configtest ./webpack.prod.ts",
     "dev:chrome": "BUILD_TARGET=chrome webpack --watch --config webpack.dev.ts",
     "dev:firefox": "BUILD_TARGET=firefox webpack --watch --config webpack.dev.ts",
     "format": "npm run pretter:fix && npm run lint:fix && npm run ext:lint",
@@ -13,10 +17,9 @@
     "prettier": "npx prettier src -c",
     "prettier:fix": "npm run prettier -- --write",
     "ts:check": "tsc --noEmit",
-    "configtest": "npx run-p configtest:*",
-    "configtest:webpack-common": "npx webpack configtest ./webpack.common.ts ",
-    "configtest:webpack-dev": "npx webpack configtest ./webpack.dev.ts",
-    "configtest:webpack-prod": "npx webpack configtest ./webpack.prod.ts"
+    "validate": "npx run-p validate:*",
+    "validate:firefox": "npm run build:firefox && npx web-ext lint -s dist/firefox",
+    "validate:chrome": "npm run build:chrome && npx web-ext lint -s dist/chrome"
   },
   "browserslist": [
     "last 1 Chrome version",
