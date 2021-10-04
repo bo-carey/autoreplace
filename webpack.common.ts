@@ -58,7 +58,7 @@ const config: Configuration = {
     }),
   ],
   stats: {
-    warnings: false,
+    warnings: true,
   },
 };
 
