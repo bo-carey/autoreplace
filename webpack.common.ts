@@ -11,8 +11,8 @@ const config: Configuration = {
     backgroundPage: path.join(__dirname, 'src/index.ts'),
   },
   output: {
-    path: path.resolve(__dirname, `dist/${buildTarget}`),
-    filename: 'main.js',
+    path: path.resolve(__dirname, `dist/${buildTarget}/js`),
+    filename: '[name].js',
     clean: true,
   },
   resolve: {
@@ -35,7 +35,10 @@ const config: Configuration = {
   },
   plugins: [
     new CopyWebpackPlugin({
-      patterns: [{ from: 'target/shared/' }, { from: `target/${buildTarget}/` }],
+      patterns: [
+        { from: 'target/shared/', to: path.resolve(__dirname, `dist/${buildTarget}`) },
+        { from: `target/${buildTarget}/`, to: path.resolve(__dirname, `dist/${buildTarget}`) },
+      ],
     }),
     new WebExtPlugin({
       sourceDir: path.resolve(__dirname, `dist/${buildTarget}`),

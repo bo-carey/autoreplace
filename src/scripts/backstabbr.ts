@@ -59,7 +59,7 @@ const displayData = (gameName: string) => {
 export function runBackstabbrAssistant(): void {
   const infoDiv = document.getElementById('info') as HTMLDivElement;
   if (infoDiv != null) {
-    waitForElementToExist('table > tbody > tr')
+    waitForElementToExist('#info table > tbody > tr')
       .then((element) => {
         const nodelist = element as unknown as NodeList;
         gatherUserDataAutomatically(nodelist)
