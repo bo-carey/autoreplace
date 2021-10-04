@@ -21,15 +21,6 @@ const config: Configuration = {
   module: {
     rules: [
       {
-        test: /\.(gif|jpe?g|png)$/,
-        include: path.resolve('target/shared/icons/'),
-        loader: 'url-loader',
-        options: {
-          limit: 10000,
-          name: '[name].[ext]',
-        },
-      },
-      {
         test: /\.(ts|tsx)$/,
         include: path.resolve(__dirname, 'src'),
         loader: 'ts-loader',
