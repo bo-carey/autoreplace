@@ -9,6 +9,7 @@ const gameLocation = process.env.GAME_LOCATION || '';
 const config: Configuration = {
   entry: {
     backgroundPage: path.join(__dirname, 'src/index.ts'),
+    popup: path.join(__dirname, 'src/popup/index.tsx'),
   },
   output: {
     path: path.resolve(__dirname, `dist/${buildTarget}/js`),
