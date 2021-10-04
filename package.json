@@ -26,14 +26,18 @@
     "last 1 Firefox version"
   ],
   "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "webext-options-sync": "^2.0.1"
   },
   "devDependencies": {
     "@types/chrome": "0.0.158",
     "@types/copy-webpack-plugin": "^8.0.1",
-    "@types/firefox": "^0.0.31",
+    "@types/firefox": "0.0.31",
     "@types/node": "^16.10.1",
     "@types/webextension-polyfill": "^0.8.0",
+    "@types/react": "^17.0.27",
+    "@types/react-dom": "^17.0.9",
     "@types/webpack": "^5.28.0",
     "@types/webpack-dev-server": "^4.1.0",
     "@types/zip-webpack-plugin": "^3.0.3",
