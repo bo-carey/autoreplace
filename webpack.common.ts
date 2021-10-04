@@ -8,7 +8,7 @@ const gameLocation = process.env.GAME_LOCATION || '';
 
 const config: Configuration = {
   entry: {
-    main: ['./src/index.ts'],
+    backgroundPage: path.join(__dirname, 'src/index.ts'),
   },
   output: {
     path: path.resolve(__dirname, `dist/${buildTarget}`),
@@ -16,12 +16,12 @@ const config: Configuration = {
     clean: true,
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    extensions: ['.js', '.ts', '.tsx'],
   },
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
+        test: /\.tsx?$/,
         include: path.resolve(__dirname, 'src'),
         loader: 'ts-loader',
         options: {
