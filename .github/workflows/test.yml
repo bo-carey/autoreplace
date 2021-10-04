@@ -24,7 +24,7 @@ jobs:
         run: npm run ts:check
         if: matrix.command == 'test'
       - name: Validate webpack config
-        run: npm run configtest:webpack
+        run: npm run configtest
         if: matrix.command == 'test'
 env:
   CI: true
