@@ -23,14 +23,14 @@
     "default_popup": "popup.html"
   },
   "background": {
-    "scripts": ["backgroundPage.js"]
+    "scripts": ["./js/backgroundPage.js"]
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
       "all_frames": false,
       "run_at": "document_end",
-      "js": ["./contentScript/js"]
+      "js": ["./js/contentScript.js"]
     }
   ],
   "icons": {

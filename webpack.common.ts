@@ -12,7 +12,7 @@ const config: Configuration = {
     popup: path.join(__dirname, 'src/popup/index.tsx'),
   },
   output: {
-    path: path.resolve(__dirname, `dist/${buildTarget}`),
+    path: path.resolve(__dirname, `dist/${buildTarget}/js`),
     filename: '[name].js',
     clean: true,
   },
