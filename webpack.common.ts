@@ -48,7 +48,7 @@ const config: Configuration = {
       overwriteDest: true,
       outputFilename: `${buildTarget}.zip`,
       browserConsole: true,
-      startUrl: 'https://twitter.com',
+      startUrl: 'https://rocketfusiondev.com/p/7/Testing-Static-Text-Page-Sections',
     }),
   ],
   stats: {

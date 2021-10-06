@@ -21,9 +21,6 @@ const handleMessage = (message: any): Promise<any | null> => {
     switch (eventType) {
       case EventType.POPUP_MOUNTED:
         console.log('backgroundPage notified that Popup.tsx has mounted.');
-        allTextNodes = getTextNodes(document.body);
-        console.log(`document.body`, document.body);
-        console.log(`allTextNodes`, allTextNodes);
         break;
       case EventType.SEARCH:
         console.log('seach query', message.query);
@@ -35,3 +32,7 @@ const handleMessage = (message: any): Promise<any | null> => {
 };
 
 browser.runtime.onMessage.addListener(handleMessage);
+
+allTextNodes = getTextNodes(document.body);
+console.log(`document.body`, document.body);
+console.log(`allTextNodes`, allTextNodes);
