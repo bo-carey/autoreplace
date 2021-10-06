@@ -4,15 +4,15 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import WebExtPlugin from 'web-ext-plugin';
 
 const buildTarget: string = process.env.BUILD_TARGET || 'firefox';
-const gameLocation = process.env.GAME_LOCATION || '';
 
 const config: Configuration = {
   entry: {
-    backgroundPage: path.join(__dirname, 'src/index.ts'),
+    backgroundPage: path.join(__dirname, 'src/background.ts'),
+    contentScript: path.join(__dirname, 'src/contentScript.ts'),
     popup: path.join(__dirname, 'src/popup/index.tsx'),
   },
   output: {
-    path: path.resolve(__dirname, `dist/${buildTarget}/js`),
+    path: path.resolve(__dirname, `dist/${buildTarget}`),
     filename: '[name].js',
     clean: true,
   },
@@ -47,9 +47,8 @@ const config: Configuration = {
       buildPackage: true,
       overwriteDest: true,
       outputFilename: `${buildTarget}.zip`,
-      browserConsole: false,
-      startUrl: gameLocation,
-      firefoxProfile: 'default',
+      browserConsole: true,
+      startUrl: 'https://twitter.com',
     }),
   ],
   stats: {

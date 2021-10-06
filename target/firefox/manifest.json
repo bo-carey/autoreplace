@@ -10,21 +10,33 @@
       "strict_min_version": "57.0"
     }
   },
+  "commands": {
+    "find": {
+      "suggested-key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "MacCtrl+Shift+F"
+      }
+    }
+  },
   "browser_action": {
     "default_icon": "./icons/16.png",
     "default_popup": "popup.html"
   },
   "background": {
-    "scripts": ["js/backgroundPage.js"],
+    "scripts": ["backgroundPage.js"],
     "persistent": false
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "all_frames": false,
+      "run_at": "document_end",
+      "js": ["./contentScript/js"]
+    }
+  ],
   "icons": {
-    "16": "./icons/16.png",
-    "24": "./icons/24.png",
-    "32": "./icons/32.png",
-    "48": "./icons/48.png",
-    "64": "./icons/64.png",
-    "128": "./icons/128.png"
+    "16": "./icons/16.png"
   },
-  "permissions": ["storage", "*://*.backstabbr.com/game/*"]
+  "permissions": ["tabs", "activeTab", "background", "storage", "contextMenus", "<all_urls>"],
+  "offline_enabled": true
 }

@@ -4,22 +4,37 @@
   "description": "A browser extension to facilitate games of backstabbr.",
   "homepage_url": "https://github.com/bo-carey/backstabbr-assistant",
   "manifest_version": 2,
-  "minimum_chrome_version": "74",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "37e43dcc637da45ab8dc2bc2251f0e9a5e4e83f9@temporary-addon",
+      "strict_min_version": "57.0"
+    }
+  },
+  "commands": {
+    "find": {
+      "suggested-key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "MacCtrl+Shift+F"
+      }
+    }
+  },
   "browser_action": {
     "default_icon": "./icons/16.png",
     "default_popup": "popup.html"
   },
   "background": {
-    "scripts": ["js/backgroundPage.js"],
-    "persistent": false
+    "scripts": ["backgroundPage.js"]
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "all_frames": false,
+      "run_at": "document_end",
+      "js": ["./contentScript/js"]
+    }
+  ],
   "icons": {
-    "16": "./icons/16.png",
-    "24": "./icons/24.png",
-    "32": "./icons/32.png",
-    "48": "./icons/48.png",
-    "64": "./icons/64.png",
-    "128": "./icons/128.png"
+    "16": "./icons/16.png"
   },
-  "permissions": ["storage", "*://*.backstabbr.com/game/*"]
+  "permissions": ["tabs", "activeTab", "background", "storage", "contextMenus", "<all_urls>"]
 }

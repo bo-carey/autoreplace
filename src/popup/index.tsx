@@ -1,10 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { browser } from 'webextension-polyfill-ts';
-import { Popup } from './component';
+import { Popup } from './components';
 
-browser.tabs
-  .query({ active: true, currentWindow: true, url: '*://*.backstabbr.com/game/*' })
-  .then(() => {
-    ReactDOM.render(<Popup />, document.getElementById('popup'));
-  });
+browser.tabs.query({ active: true, currentWindow: true }).then(() => {
+  ReactDOM.render(<Popup />, document.getElementById('popup'));
+});
