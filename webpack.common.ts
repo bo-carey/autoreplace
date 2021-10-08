@@ -7,7 +7,7 @@ const buildTarget: string = process.env.BUILD_TARGET || 'firefox';
 
 const config: Configuration = {
   entry: {
-    contentScript: path.join(__dirname, 'src/contentScript.ts'),
+    contentScript: path.join(__dirname, 'src/content/index.ts'),
     popup: path.join(__dirname, 'src/popup/index.tsx'),
   },
   output: {
@@ -46,7 +46,6 @@ const config: Configuration = {
       buildPackage: true,
       overwriteDest: true,
       outputFilename: `${buildTarget}.zip`,
-      browserConsole: true,
       startUrl: 'https://rocketfusiondev.com/p/7/Testing-Static-Text-Page-Sections',
       target: buildTarget === 'firefox' ? 'firefox-desktop' : 'chromium',
     }),

@@ -1,5 +1,5 @@
 import { browser } from 'webextension-polyfill-ts';
-import { EventType } from './constants';
+import { EventType, EventMessage } from '../utils/constants';
 
 let allTextNodes: Element[] = [];
 
@@ -15,27 +15,23 @@ const findInDocument = async (request: any): Promise<any> => {
   return new Promise((resolve, reject) => {});
 };
 
-const handleMessage = (message: any): Promise<any | null> => {
+const handleMessage = (message: EventMessage): Promise<any | null> => {
   return new Promise((resolve, reject) => {
-    const { eventType } = message;
-    switch (eventType) {
+    switch (message.type) {
       case EventType.POPUP_MOUNTED:
         console.log('backgroundPage notified that Popup.tsx has mounted.');
         break;
       case EventType.SEARCH:
-        console.log('seach query', message.query);
+        console.log('seach query', message.payload);
         break;
       default:
-        console.log('Recieved unknown message: ', message);
+        console.log('Recieved unknown message: ', message.payload);
     }
     resolve(true);
   });
 };
 
 browser.runtime.onMessage.addListener(handleMessage);
-browser.runtime.onMessage.addListener((message: any) => {
-  console.log(`message`, message);
-});
 
 allTextNodes = getTextNodes(document.body);
 console.log(`document.body`, document.body);
