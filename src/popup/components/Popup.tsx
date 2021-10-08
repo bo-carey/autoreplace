@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import { EventType, SearchResult } from '../../constants';
+import { sendMessage } from '../comms';
 
 export const Popup: FunctionComponent = () => {
   const [resultString, setResultString] = React.useState<string>('');
@@ -11,21 +12,23 @@ export const Popup: FunctionComponent = () => {
   const search = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const query = ev.target.value || '';
     setSearchinput(query);
-    const searchParams = {
-      eventType: EventType.SEARCH,
-      query,
-      activeResult,
-    };
-    browser.runtime.sendMessage(searchParams).then((result: SearchResult) => {
-      console.log('search result :>> ', result);
-      resultCount = result.count;
-      activeResult = result.active;
-      setResultString(`${activeResult} of ${resultCount}`);
-    });
+    // const searchParams = {
+    //   eventType: EventType.SEARCH,
+    //   query,
+    //   activeResult,
+    // };
+    // browser.runtime.sendMessage(searchParams).then((result: SearchResult) => {
+    //   console.log('search result :>> ', result);
+    //   resultCount = result.count;
+    //   activeResult = result.active;
+    //   setResultString(`${activeResult} of ${resultCount}`);
+    // });
+    sendMessage(EventType.SEARCH, { query, activeResult });
   };
 
   React.useEffect(() => {
-    browser.runtime.sendMessage({ eventType: EventType.POPUP_MOUNTED });
+    // browser.runtime.sendMessage({ eventType: EventType.POPUP_MOUNTED });
+    sendMessage(EventType.POPUP_MOUNTED);
   }, []);
 
   return (

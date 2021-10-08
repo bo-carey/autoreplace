@@ -4,18 +4,9 @@
   "description": "A browser extension to facilitate games of backstabbr.",
   "homepage_url": "https://github.com/bo-carey/backstabbr-assistant",
   "manifest_version": 2,
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "37e43dcc637da45ab8dc2bc2251f0e9a5e4e83f9@temporary-addon",
-      "strict_min_version": "57.0"
-    }
-  },
   "browser_action": {
     "default_icon": "./icons/16.png",
     "default_popup": "popup.html"
-  },
-  "background": {
-    "scripts": ["./js/backgroundPage.js"]
   },
   "content_scripts": [
     {
@@ -28,5 +19,5 @@
   "icons": {
     "16": "./icons/16.png"
   },
-  "permissions": ["tabs", "activeTab", "background", "storage", "contextMenus", "<all_urls>"]
+  "permissions": ["tabs", "activeTab", "storage", "<all_urls>"]
 }

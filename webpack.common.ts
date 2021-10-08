@@ -7,7 +7,6 @@ const buildTarget: string = process.env.BUILD_TARGET || 'firefox';
 
 const config: Configuration = {
   entry: {
-    backgroundPage: path.join(__dirname, 'src/background.ts'),
     contentScript: path.join(__dirname, 'src/contentScript.ts'),
     popup: path.join(__dirname, 'src/popup/index.tsx'),
   },

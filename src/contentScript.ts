@@ -28,10 +28,14 @@ const handleMessage = (message: any): Promise<any | null> => {
       default:
         console.log('Recieved unknown message: ', message);
     }
+    resolve(true);
   });
 };
 
 browser.runtime.onMessage.addListener(handleMessage);
+browser.runtime.onMessage.addListener((message: any) => {
+  console.log(`message`, message);
+});
 
 allTextNodes = getTextNodes(document.body);
 console.log(`document.body`, document.body);
