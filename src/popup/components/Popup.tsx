@@ -37,7 +37,7 @@ export const Popup: FunctionComponent = () => {
           <span>{resultString}</span>
           <button>&uarr;</button>
           <button>&darr;</button>
-          <button>&#9776</button>
+          <button>&#9776;</button>
           <button>&times;</button>
         </div>
         <div className="row">

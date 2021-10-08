@@ -49,6 +49,7 @@ const config: Configuration = {
       outputFilename: `${buildTarget}.zip`,
       browserConsole: true,
       startUrl: 'https://rocketfusiondev.com/p/7/Testing-Static-Text-Page-Sections',
+      target: buildTarget === 'firefox' ? 'firefox-desktop' : 'chromium',
     }),
   ],
   stats: {

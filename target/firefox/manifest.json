@@ -26,6 +26,14 @@
     "scripts": ["./js/backgroundPage.js"],
     "persistent": false
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "all_frames": false,
+      "run_at": "document_end",
+      "js": ["./js/contentScript.js"]
+    }
+  ],
   "icons": {
     "16": "./icons/16.png"
   },

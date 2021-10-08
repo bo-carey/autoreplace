@@ -10,14 +10,6 @@
       "strict_min_version": "57.0"
     }
   },
-  "commands": {
-    "find": {
-      "suggested-key": {
-        "default": "Ctrl+Shift+F",
-        "mac": "MacCtrl+Shift+F"
-      }
-    }
-  },
   "browser_action": {
     "default_icon": "./icons/16.png",
     "default_popup": "popup.html"
