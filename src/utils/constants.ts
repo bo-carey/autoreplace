@@ -16,3 +16,10 @@ export interface EventMessage {
 export interface PayloadObject {
   [key: string]: string | number | boolean;
 }
+
+export interface Search {
+  id: string;
+  query: string | RegExp;
+  isCaseSensitive: boolean;
+  isRegex: boolean;
+}
