@@ -1,42 +1,58 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactElement, RefObject } from 'react';
 import { EventType, ReplacePair } from '../../utils/constants';
 import { sendMessage } from '../../utils/comms';
+import ReplaceRow from './ReplaceRow';
 
 export const Popup: FunctionComponent = () => {
-  const [query, setQuery] = React.useState<string>('');
-  const [replaceString, setReplaceString] = React.useState<string>('');
-  const searchRef = React.useRef<HTMLInputElement>(null);
+  const emptyValue = { query: '', replaceString: '' };
+  const [values, setValues] = React.useState<ReplacePair[]>([emptyValue]);
+  const [refs, setRefs] = React.useState<RefObject<HTMLInputElement>[]>([]);
+
+  const createRows = () => {
+    const rows: ReactElement[] = [];
+    values.forEach((value, i) => {
+      refs.push(React.useRef<HTMLInputElement>(null));
+      rows.push(
+        <ReplaceRow
+          query={value.query}
+          setQuery={(ev) => handleChange(i, ev, 'query')}
+          replaceString={value.replaceString}
+          setReplaceString={(ev) => handleChange(i, ev, 'replaceString')}
+          deleteRow={() => handleDelete(i)}
+          inputRef={refs[i]}
+        />,
+      );
+    });
+
+    return rows;
+  };
+
+  const handleChange = (
+    index: number,
+    ev: React.ChangeEvent<HTMLInputElement>,
+    key: 'query' | 'replaceString',
+  ) => {
+    const newValues: ReplacePair[] = values;
+    newValues[index][key] = ev.target.value;
+    setValues(newValues);
+  };
+
+  const handleDelete = (index: number) => {
+    setValues(values.filter((v, i) => i !== index));
+  };
 
   const replace = () => {
-    const searchParams: ReplacePair = {
-      query,
-      replaceString,
-    };
-    sendMessage(EventType.SEARCH, [searchParams]);
+    sendMessage(EventType.SEARCH, values);
   };
 
   React.useEffect(() => {
     sendMessage(EventType.POPUP_MOUNTED);
-    searchRef?.current?.focus();
+    refs[refs.length - 1]?.current?.focus();
   }, []);
 
   return (
     <div id="cont">
-      <div id="rows">
-        <div className="row">
-          <input
-            type="text"
-            value={query}
-            onChange={(ev) => setQuery(ev.target.value)}
-            ref={searchRef}
-          />
-          <input
-            type="text"
-            value={replaceString}
-            onChange={(ev) => setReplaceString(ev.target.value)}
-          />
-        </div>
-      </div>
+      <div id="rows">{createRows()}</div>
       <button onClick={replace}>Replace!</button>
     </div>
   );
