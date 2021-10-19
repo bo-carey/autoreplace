@@ -1,9 +1,4 @@
-import React, {
-  ChangeEventHandler,
-  FunctionComponent,
-  MouseEventHandler,
-  RefObject,
-} from 'react';
+import React, { ChangeEventHandler, FunctionComponent, MouseEventHandler } from 'react';
 
 interface ReplaceRowParams {
   query: string;
@@ -11,7 +6,6 @@ interface ReplaceRowParams {
   replaceString: string;
   setReplaceString: ChangeEventHandler<HTMLInputElement>;
   deleteRow: MouseEventHandler<HTMLButtonElement>;
-  inputRef: RefObject<HTMLInputElement>;
 }
 
 const ReplaceRow: FunctionComponent<ReplaceRowParams> = ({
@@ -20,11 +14,10 @@ const ReplaceRow: FunctionComponent<ReplaceRowParams> = ({
   replaceString,
   setReplaceString,
   deleteRow,
-  inputRef,
 }) => {
   return (
     <div className="row">
-      <input type="text" value={query} onChange={setQuery} ref={inputRef} />
+      <input type="text" value={query} onChange={setQuery} />
       <input type="text" value={replaceString} onChange={setReplaceString} />
       <button onClick={deleteRow}>D</button>
     </div>

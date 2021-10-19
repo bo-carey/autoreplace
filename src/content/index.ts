@@ -52,8 +52,9 @@ const text = [
 const replaceText = (replacePairs: ReplacePair[]) => {
   replacePairs.forEach((pair) => {
     const { query, replaceString } = pair;
+    const regexQuery = new RegExp(query, 'g');
     for (let i = 0; i < text.length; i++) {
-      text[i] = text[i].replace(query, replaceString);
+      text[i] = text[i].replace(regexQuery, replaceString);
     }
   });
   console.log(`text`, text);
