@@ -25,6 +25,6 @@ export interface Search {
 }
 
 export interface ReplacePair {
-  query: string | RegExp;
+  query: string;
   replaceString: string;
 }
