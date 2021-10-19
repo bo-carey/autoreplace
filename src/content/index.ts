@@ -1,8 +1,8 @@
 import { browser } from 'webextension-polyfill-ts';
-import { EventType, EventMessage, Search } from '../utils/constants';
+import { EventType, EventMessage, ReplacePair } from '../utils/constants';
 
 // let allTextNodes: Element[] = [];
-let text = [
+const text = [
   'He moonlight difficult engrossed an it sportsmen. Interested has',
   'all',
   'devonshire difficulty',
@@ -49,19 +49,14 @@ let text = [
 //     }
 //   });
 // };
-const searchText = (request: Search) => {
-  return new Promise((resolve, reject) => {
-    const { query } = request;
-    const queryString = query as string;
-    let foundMatches = 0;
+const replaceText = (replacePairs: ReplacePair[]) => {
+  replacePairs.forEach((pair) => {
+    const { query, replaceString } = pair;
     for (let i = 0; i < text.length; i++) {
-      const textNode = text[i];
-      const startIndex = textNode.indexOf(queryString);
-      if (startIndex === -1) return;
-      foundMatches++;
-      const endIndex = startIndex + queryString.length;
+      text[i] = text[i].replace(query, replaceString);
     }
   });
+  console.log(`text`, text);
 };
 
 const handleMessage = (message: EventMessage): Promise<any> | void => {
@@ -72,7 +67,7 @@ const handleMessage = (message: EventMessage): Promise<any> | void => {
     case EventType.SEARCH:
       console.log('seach query', message.payload);
       // return findInDocument(message.payload);
-      return searchText(message.payload);
+      return replaceText(message.payload as ReplacePair[]);
     default:
       console.log('Recieved unknown message: ', message.payload);
   }

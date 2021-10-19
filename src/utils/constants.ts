@@ -10,7 +10,7 @@ export interface SearchResult {
 
 export interface EventMessage {
   type: string;
-  payload: PayloadObject;
+  payload: PayloadObject | ReplacePair[] | null;
 }
 
 export interface PayloadObject {
@@ -22,4 +22,9 @@ export interface Search {
   query: string | RegExp;
   isCaseSensitive: boolean;
   isRegex: boolean;
+}
+
+export interface ReplacePair {
+  query: string | RegExp;
+  replaceString: string;
 }
