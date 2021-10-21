@@ -1,39 +1,15 @@
 import { browser } from 'webextension-polyfill-ts';
 import { EventType, EventMessage, ReplacePair } from '../utils/constants';
 
-// let allTextNodes: Element[] = [];
-const text = [
-  'He moonlight difficult engrossed an it sportsmen. Interested has',
-  'all',
-  'devonshire difficulty',
-  'gay assistance joy. Unaffected at ye of',
-  'compliment alteration',
-  'to. Place voice no',
-  '   ',
-  '',
-  'arise along to. Parlors waiting so against',
-  'me no. Wishing calling are warrant settled was',
-  'luckily. Express besides it present if at an opinion',
-  'visitor',
-  '. Had strictly mrs handsome mistaken cheerful. We',
-  'it',
-  'so if resolution invitation remarkably unpleasant conviction.',
-  'As into ye then form. To easy five less if rose were.',
-  'Now set',
-  'offended own out required entirely. Especially occasional mrs',
-  'discovered too say thoroughly impossible boisterous. My head',
-  'when real no he high rich at with. After so',
-  'power of young as. Bore year does has get long fat cold saw neat',
-  '. Put boy carried chiefly shy general.',
-];
+let allTextNodes: Element[] = [];
 
-// const getTextNodes = (el: Element): Element[] => {
-//   let node;
-//   const textNodes = [];
-//   const treeWalker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
-//   while ((node = treeWalker.nextNode())) textNodes.push(node as Element);
-//   return textNodes;
-// };
+const getTextNodes = (el: Element = document.body): Element[] => {
+  let node;
+  const textNodes = [];
+  const treeWalker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+  while ((node = treeWalker.nextNode())) textNodes.push(node as Element);
+  return textNodes;
+};
 
 // const findInDocument = async (request: any): Promise<any> => {
 //   return new Promise((resolve, reject) => {
@@ -53,11 +29,16 @@ const replaceText = (replacePairs: ReplacePair[]) => {
   replacePairs.forEach((pair) => {
     const { query, replaceString } = pair;
     const regexQuery = new RegExp(query, 'g');
-    for (let i = 0; i < text.length; i++) {
-      text[i] = text[i].replace(regexQuery, replaceString);
+
+    for (let i = 0; i < allTextNodes.length; i++) {
+      const node = allTextNodes[i];
+      const currentValue = node.textContent || null;
+      const newValue = node.textContent?.replace(regexQuery, replaceString) || null;
+      if (currentValue && newValue && currentValue !== newValue) {
+        node.textContent = newValue;
+      }
     }
   });
-  console.log(`text`, text);
 };
 
 const handleMessage = (message: EventMessage): Promise<any> | void => {
@@ -76,6 +57,4 @@ const handleMessage = (message: EventMessage): Promise<any> | void => {
 
 browser.runtime.onMessage.addListener(handleMessage);
 
-// allTextNodes = getTextNodes(document.body);
-// console.log(`document.body`, document.body);
-// console.log(`allTextNodes`, allTextNodes);
+allTextNodes = getTextNodes();
