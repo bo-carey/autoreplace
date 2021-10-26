@@ -1,2 +1,2 @@
-# FindReplace List
-A browser extension for replacing text in lists.
+# AutoReplace
+A browser extension for automatically replacing text in the dom.
