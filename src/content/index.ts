@@ -58,3 +58,36 @@ const handleMessage = (message: EventMessage): Promise<any> | void => {
 browser.runtime.onMessage.addListener(handleMessage);
 
 allTextNodes = getTextNodes();
+
+const testStorage = async () => {
+  console.dir('testStorage');
+  await browser.storage.sync.set({
+    allKeys: [
+      { uuid: '00000000-0000-0000-0000-000000000000', urlGlob: '*://www.google.com/*' },
+      { uuid: '11111111-1111-1111-1111-111111111111', urlGlob: '*://www.*.com' },
+    ],
+    '00000000-0000-0000-0000-000000000000': {
+      uuid: '00000000-0000-0000-0000-000000000000',
+      urlGlob: '*://www.google.com/*',
+      rules: [
+        {
+          query: 'a',
+          replaceText: 'o',
+        },
+      ],
+    },
+    '11111111-1111-1111-1111-111111111111': {
+      uuid: '11111111-1111-1111-1111-111111111111',
+      urlGlob: '*://www.*.com',
+      rules: [
+        {
+          query: 'a',
+          replaceText: 'o',
+        },
+      ],
+    },
+  });
+  const allKeys = await browser.storage.sync.get('allKeys');
+  console.log(`allKeys`, allKeys);
+};
+testStorage();
