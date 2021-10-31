@@ -1,4 +1,5 @@
 import { browser } from 'webextension-polyfill-ts';
+import { matchUrl } from '@bo-carey/urlglob';
 import { EventType, EventMessage, ReplacePair } from '../utils/constants';
 
 let allTextNodes: Element[] = [];
@@ -11,20 +12,6 @@ const getTextNodes = (el: Element = document.body): Element[] => {
   return textNodes;
 };
 
-// const findInDocument = async (request: any): Promise<any> => {
-//   return new Promise((resolve, reject) => {
-//     const { query, activeResult } = request;
-//     let foundMatches = 0;
-//     for (let i = 0; i < allTextNodes.length; i++) {
-//       const textNode = allTextNodes[i];
-//       const startIndex = textNode.textContent?.indexOf(query);
-//       if (startIndex === -1) return;
-//       foundMatches++;
-//       const endIndex = startIndex + query.length;
-
-//     }
-//   });
-// };
 const replaceText = (replacePairs: ReplacePair[]) => {
   replacePairs.forEach((pair) => {
     const { query, replaceString } = pair;
@@ -59,8 +46,18 @@ browser.runtime.onMessage.addListener(handleMessage);
 
 allTextNodes = getTextNodes();
 
+const match = (glob: string, text: string) => {
+  const sglob = glob.split('/');
+  const stext = text.split('/');
+  let globA = sglob[0];
+  for (let i = 0; i < stext.length; i++) {
+    const part = stext[i];
+  }
+};
+
 const testStorage = async () => {
   console.dir('testStorage');
+  const currentLocation = window.location.href;
   await browser.storage.sync.set({
     allKeys: [
       { uuid: '00000000-0000-0000-0000-000000000000', urlGlob: '*://www.google.com/*' },
@@ -87,7 +84,12 @@ const testStorage = async () => {
       ],
     },
   });
-  const allKeys = await browser.storage.sync.get('allKeys');
-  console.log(`allKeys`, allKeys);
+  match;
+  const allKeysData = await browser.storage.sync.get('allKeys');
+  console.log(`allKeysData`, allKeysData);
+  for (const keySet of allKeysData.allKeys) {
+    if (matchUrl(keySet, currentLocation)) {
+    }
+  }
 };
 testStorage();

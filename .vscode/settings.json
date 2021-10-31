@@ -4,5 +4,8 @@
   "editor.codeActionsOnSave": {
     "source.formatDocument": true
   },
-  "eslint.validate": ["javascript", "typescript"]
+  "eslint.validate": ["javascript", "typescript"],
+  "search.exclude": {
+    "**/node_modules": false
+  }
 }
