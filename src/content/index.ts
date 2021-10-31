@@ -58,6 +58,7 @@ const match = (glob: string, text: string) => {
 const testStorage = async () => {
   console.dir('testStorage');
   const currentLocation = window.location.href;
+  let uuid = '';
   await browser.storage.sync.set({
     allKeys: [
       { uuid: '00000000-0000-0000-0000-000000000000', urlGlob: '*://www.google.com/*' },
@@ -88,8 +89,14 @@ const testStorage = async () => {
   const allKeysData = await browser.storage.sync.get('allKeys');
   console.log(`allKeysData`, allKeysData);
   for (const keySet of allKeysData.allKeys) {
-    if (matchUrl(keySet, currentLocation)) {
+    console.log(`keySet`, keySet);
+    if (matchUrl(currentLocation, keySet.urlGlob)) {
+      uuid = keySet.uuid;
     }
   }
+  if (!uuid || !uuid.length) return;
+  const { [uuid]: siteSettings } = await browser.storage.sync.get(uuid);
+  if (siteSettings.uuid !== uuid) return;
+  console.log(`siteSettings`, siteSettings);
 };
 testStorage();
