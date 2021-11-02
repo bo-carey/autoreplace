@@ -92,10 +92,8 @@ const getSiteSettings = async (location = window.location.href): Promise<any> =>
 };
 
 const testStorage = async () => {
-  console.dir('testStorage');
   await createMockData();
   const siteSettings = await getSiteSettings();
-  console.log(`siteSettings`, siteSettings);
   replaceText(siteSettings.rules);
 };
 testStorage();
