@@ -46,57 +46,56 @@ browser.runtime.onMessage.addListener(handleMessage);
 
 allTextNodes = getTextNodes();
 
-const match = (glob: string, text: string) => {
-  const sglob = glob.split('/');
-  const stext = text.split('/');
-  let globA = sglob[0];
-  for (let i = 0; i < stext.length; i++) {
-    const part = stext[i];
-  }
-};
-
-const testStorage = async () => {
-  console.dir('testStorage');
-  const currentLocation = window.location.href;
-  let uuid = '';
-  await browser.storage.sync.set({
+const createMockData = async (): Promise<void> => {
+  return browser.storage.sync.set({
     allKeys: [
       { uuid: '00000000-0000-0000-0000-000000000000', urlGlob: '*://www.google.com/*' },
-      { uuid: '11111111-1111-1111-1111-111111111111', urlGlob: '*://www.*.com' },
+      { uuid: '11111111-1111-1111-1111-111111111111', urlGlob: '**rocketfusiondev**' },
     ],
     '00000000-0000-0000-0000-000000000000': {
       uuid: '00000000-0000-0000-0000-000000000000',
       urlGlob: '*://www.google.com/*',
       rules: [
         {
-          query: 'a',
-          replaceText: 'o',
+          query: 'o',
+          replaceString: 'e',
         },
       ],
     },
     '11111111-1111-1111-1111-111111111111': {
       uuid: '11111111-1111-1111-1111-111111111111',
-      urlGlob: '*://www.*.com',
+      urlGlob: '**rocketfusiondev**',
       rules: [
         {
           query: 'a',
-          replaceText: 'o',
+          replaceString: 'o',
         },
       ],
     },
   });
-  match;
+};
+
+const getSiteSettings = async (location = window.location.href): Promise<any> => {
+  let uuid = '';
   const allKeysData = await browser.storage.sync.get('allKeys');
   console.log(`allKeysData`, allKeysData);
   for (const keySet of allKeysData.allKeys) {
     console.log(`keySet`, keySet);
-    if (matchUrl(currentLocation, keySet.urlGlob)) {
+    if (matchUrl(location, keySet.urlGlob)) {
       uuid = keySet.uuid;
     }
   }
-  if (!uuid || !uuid.length) return;
+  if (!uuid || !uuid.length) return null;
   const { [uuid]: siteSettings } = await browser.storage.sync.get(uuid);
   if (siteSettings.uuid !== uuid) return;
+  return siteSettings;
+};
+
+const testStorage = async () => {
+  console.dir('testStorage');
+  await createMockData();
+  const siteSettings = await getSiteSettings();
   console.log(`siteSettings`, siteSettings);
+  replaceText(siteSettings.rules);
 };
 testStorage();
