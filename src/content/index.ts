@@ -1,6 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
-import { matchUrl } from '@bo-carey/urlglob';
-import { EventType, EventMessage, ReplacePair } from '../utils/constants';
+import { EventType, EventMessage, Rule } from '../utils/constants';
+import storage from '../utils/storage';
 
 let allTextNodes: Element[] = [];
 
@@ -12,8 +12,8 @@ const getTextNodes = (el: Element = document.body): Element[] => {
   return textNodes;
 };
 
-const replaceText = (replacePairs: ReplacePair[]) => {
-  replacePairs.forEach((pair) => {
+const replaceText = (Rules: Rule[]) => {
+  Rules.forEach((pair) => {
     const { query, replaceString } = pair;
     const regexQuery = new RegExp(query, 'g');
 
@@ -36,7 +36,7 @@ const handleMessage = (message: EventMessage): Promise<any> | void => {
     case EventType.SEARCH:
       console.log('seach query', message.payload);
       // return findInDocument(message.payload);
-      return replaceText(message.payload as ReplacePair[]);
+      return replaceText(message.payload as Rule[]);
     default:
       console.log('Recieved unknown message: ', message.payload);
   }
@@ -47,53 +47,34 @@ browser.runtime.onMessage.addListener(handleMessage);
 allTextNodes = getTextNodes();
 
 const createMockData = async (): Promise<void> => {
-  return browser.storage.sync.set({
-    allKeys: [
-      { uuid: '00000000-0000-0000-0000-000000000000', urlGlob: '*://www.google.com/*' },
-      { uuid: '11111111-1111-1111-1111-111111111111', urlGlob: '**rocketfusiondev**' },
+  await storage.setSiteSettings({
+    uuid: '00000000-0000-0000-0000-000000000000',
+    urlGlob: '*://www.google.com/*',
+    rules: [
+      {
+        query: 'o',
+        replaceString: 'e',
+      },
     ],
-    '00000000-0000-0000-0000-000000000000': {
-      uuid: '00000000-0000-0000-0000-000000000000',
-      urlGlob: '*://www.google.com/*',
-      rules: [
-        {
-          query: 'o',
-          replaceString: 'e',
-        },
-      ],
-    },
-    '11111111-1111-1111-1111-111111111111': {
-      uuid: '11111111-1111-1111-1111-111111111111',
-      urlGlob: '**rocketfusiondev**',
-      rules: [
-        {
-          query: 'a',
-          replaceString: 'o',
-        },
-      ],
-    },
   });
+  await storage.setSiteSettings({
+    uuid: '11111111-1111-1111-1111-111111111111',
+    urlGlob: '**rocketfusiondev**',
+    rules: [
+      {
+        query: 'a',
+        replaceString: 'o',
+      },
+    ],
+  });
+  return;
 };
 
-const getSiteSettings = async (location = window.location.href): Promise<any> => {
-  let uuid = '';
-  const allKeysData = await browser.storage.sync.get('allKeys');
-  console.log(`allKeysData`, allKeysData);
-  for (const keySet of allKeysData.allKeys) {
-    console.log(`keySet`, keySet);
-    if (matchUrl(location, keySet.urlGlob)) {
-      uuid = keySet.uuid;
-    }
-  }
-  if (!uuid || !uuid.length) return null;
-  const { [uuid]: siteSettings } = await browser.storage.sync.get(uuid);
-  if (siteSettings.uuid !== uuid) return;
-  return siteSettings;
+createMockData();
+
+const runReplacer = async () => {
+  const siteSettings = await storage.getSiteSettings();
+  replaceText(siteSettings?.rules || []);
 };
 
-const testStorage = async () => {
-  await createMockData();
-  const siteSettings = await getSiteSettings();
-  replaceText(siteSettings.rules);
-};
-testStorage();
+window.addEventListener('onload', () => runReplacer());

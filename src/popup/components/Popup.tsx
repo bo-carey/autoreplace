@@ -1,18 +1,18 @@
 import React, { FunctionComponent, ReactElement } from 'react';
-import { EventType, ReplacePair } from '../../utils/constants';
+import { EventType, Rule } from '../../utils/constants';
 import { sendMessage } from '../../utils/comms';
 import ReplaceRow from './ReplaceRow';
 
 export const Popup: FunctionComponent = () => {
   const emptyValue = { query: '', replaceString: '' };
-  const [values, setValues] = React.useState<ReplacePair[]>([emptyValue]);
+  const [values, setValues] = React.useState<Rule[]>([emptyValue]);
 
   const handleChange = (
     index: number,
     ev: React.ChangeEvent<HTMLInputElement>,
     key: 'query' | 'replaceString',
   ) => {
-    const newValues: ReplacePair[] = [...values];
+    const newValues: Rule[] = [...values];
     newValues[index][key] = ev.target.value;
     setValues(newValues);
   };
