@@ -1,9 +1,13 @@
 import { browser, Tabs } from 'webextension-polyfill-ts';
-import { EventType } from './constants';
+import { EventType, Messenger, Payload, EventMessageReturnType } from './constants';
 
-export const sendMessage = (type: EventType, payload: any = {}): void => {
-  browser.tabs.query({ active: true, currentWindow: true }).then((tabs: Tabs.Tab[]) => {
-    const activeTabId = tabs[0].id || 0;
-    browser.tabs.sendMessage(activeTabId, { type, payload });
-  });
+export const messengerFactory = async (): Promise<Messenger> => {
+  const tabs: Tabs.Tab[] = await browser.tabs.query({ active: true, currentWindow: true });
+  const activeTabId = tabs[0].id || 0;
+  const send = (type: EventType, payload?: Payload): Promise<EventMessageReturnType> => {
+    return browser.tabs.sendMessage(activeTabId, { type, payload });
+  };
+  return {
+    send,
+  };
 };

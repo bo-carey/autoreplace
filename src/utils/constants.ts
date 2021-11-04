@@ -9,9 +9,11 @@ export interface SearchResult {
   active: number;
 }
 
+export type Payload = Rule[] | SiteSettings | null;
+
 export interface EventMessage {
   type: string;
-  payload: Rule[] | SiteSettings | null;
+  payload: Payload;
 }
 
 export type EventMessageReturnType = SiteSettings | void | null;
@@ -37,4 +39,8 @@ export interface SiteSettings {
 export interface SiteKey {
   uuid: string;
   urlGlob: string;
+}
+
+export interface Messenger {
+  send: (type: EventType, payload?: Payload) => Promise<EventMessageReturnType>;
 }
