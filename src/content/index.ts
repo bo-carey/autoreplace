@@ -1,5 +1,12 @@
 import { browser } from 'webextension-polyfill-ts';
-import { EventType, EventMessage, Rule } from '../utils/constants';
+import { v4 as uuid } from 'uuid';
+import {
+  EventType,
+  EventMessage,
+  Rule,
+  SiteSettings,
+  EventMessageReturnType,
+} from '../utils/constants';
 import storage from '../utils/storage';
 
 let allTextNodes: Element[] = [];
@@ -28,17 +35,25 @@ const replaceText = (Rules: Rule[]) => {
   });
 };
 
-const handleMessage = (message: EventMessage): Promise<any> | void => {
+const saveRules = async (settings: SiteSettings): Promise<void> => {
+  const siteSettings = await storage.getSiteSettings();
+  await storage.setSiteSettings({
+    ...siteSettings,
+    ...settings,
+    uuid: siteSettings?.uuid || uuid(),
+  });
+};
+
+const handleMessage = (message: EventMessage): Promise<EventMessageReturnType> | void => {
   switch (message.type) {
     case EventType.POPUP_MOUNTED:
-      console.log('backgroundPage notified that Popup.tsx has mounted.');
-      return Promise.resolve();
-    case EventType.SEARCH:
-      console.log('seach query', message.payload);
-      // return findInDocument(message.payload);
+      return storage.getSiteSettings();
+    case EventType.REPLACE:
       return replaceText(message.payload as Rule[]);
+    case EventType.SAVE:
+      return saveRules(message.payload as SiteSettings);
     default:
-      console.log('Recieved unknown message: ', message.payload);
+      console.log('AutoReplace recieved unknown message: ', message);
   }
 };
 

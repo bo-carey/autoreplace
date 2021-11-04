@@ -1,6 +1,7 @@
 export enum EventType {
   POPUP_MOUNTED = 'popup-mounted',
-  SEARCH = 'search',
+  REPLACE = 'replace',
+  SAVE = 'save',
 }
 
 export interface SearchResult {
@@ -10,12 +11,10 @@ export interface SearchResult {
 
 export interface EventMessage {
   type: string;
-  payload: PayloadObject | Rule[] | null;
+  payload: Rule[] | SiteSettings | null;
 }
 
-export interface PayloadObject {
-  [key: string]: string | number | boolean;
-}
+export type EventMessageReturnType = SiteSettings | void | null;
 
 export interface Search {
   id: string;
