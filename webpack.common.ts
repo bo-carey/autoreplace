@@ -1,4 +1,5 @@
 import * as path from 'path';
+import sass from 'sass';
 import { Configuration } from 'webpack';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import WebExtPlugin from 'web-ext-plugin';
@@ -30,6 +31,19 @@ const config: Configuration = {
             noEmit: false,
           },
         },
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: sass,
+            },
+          },
+        ],
       },
     ],
   },
