@@ -5,8 +5,15 @@ import ReplaceRow from './ReplaceRow';
 
 export const Popup: FunctionComponent = () => {
   let messenger: Messenger;
+  let isSetup: boolean;
   const emptyValue = { query: '', replaceString: '' };
   const [values, setValues] = React.useState<Rule[]>([emptyValue]);
+
+  const setupMessenger = async () => {
+    messenger = await messengerFactory();
+    const siteData = await messenger.send(EventType.POPUP_MOUNTED);
+    console.log('siteData :>> ', siteData);
+  };
 
   const handleChange = (
     index: number,
@@ -45,10 +52,7 @@ export const Popup: FunctionComponent = () => {
   const save = () => messenger.send(EventType.SAVE, values);
 
   React.useEffect(() => {
-    messengerFactory().then((m) => {
-      messenger = m;
-      messenger.send(EventType.POPUP_MOUNTED);
-    });
+    if (!isSetup) setupMessenger();
   }, []);
 
   return (
