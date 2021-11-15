@@ -1,19 +1,14 @@
 import React, { FunctionComponent, ReactElement } from 'react';
 import { EventType, Messenger, Rule } from '../../utils/constants';
-import { messengerFactory } from '../../utils/comms';
 import ReplaceRow from './ReplaceRow';
 
-export const Popup: FunctionComponent = () => {
-  let messenger: Messenger;
-  let isSetup: boolean;
+interface PopupParams {
+  messenger: Messenger;
+}
+
+export const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
   const emptyValue = { query: '', replaceString: '' };
   const [values, setValues] = React.useState<Rule[]>([emptyValue]);
-
-  const setupMessenger = async () => {
-    messenger = await messengerFactory();
-    const siteData = await messenger.send(EventType.POPUP_MOUNTED);
-    console.log('siteData :>> ', siteData);
-  };
 
   const handleChange = (
     index: number,
@@ -52,7 +47,9 @@ export const Popup: FunctionComponent = () => {
   const save = () => messenger.send(EventType.SAVE, values);
 
   React.useEffect(() => {
-    if (!isSetup) setupMessenger();
+    messenger.send(EventType.POPUP_MOUNTED).then((siteData) => {
+      console.log('siteData :>> ', siteData);
+    });
   }, []);
 
   return (
