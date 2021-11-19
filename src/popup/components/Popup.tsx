@@ -9,6 +9,8 @@ interface PopupParams {
 export const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
   const emptyValue = { query: '', replaceString: '' };
   const [values, setValues] = React.useState<Rule[]>([emptyValue]);
+  const [isCaseSensitive, setIsCaseSensitive] = React.useState<boolean>(false);
+  const [isUsingRegex, setIsUsingRegex] = React.useState<boolean>(false);
 
   const handleChange = (
     index: number,
@@ -31,6 +33,10 @@ export const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
           replaceString={value.replaceString}
           setReplaceString={(ev) => handleChange(i, ev, 'replaceString')}
           deleteRow={() => handleDelete(i)}
+          isCaseSensitive={isCaseSensitive}
+          isUsingRegex={isUsingRegex}
+          setIsCaseSensitive={setIsCaseSensitive}
+          setIsUsingRegex={setIsUsingRegex}
         />,
       );
     });

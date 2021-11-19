@@ -17,3 +17,29 @@ input {
   font-weight: bold;
   color: crimson;
 }
+
+.ComplexInput {
+  display:flex;
+  flex-direction:row;
+  border:1px solid grey;
+  padding:2px;
+  input {
+    flex-grow:2;
+    border:none;
+    border-radius: 2px;
+    &:focus {
+      outline: none;
+    }
+  }
+  button {
+    border:1px solid transparent;
+    border-radius: 2px;
+    background:transparent;
+    color:white;
+    margin-left: 1px;
+    &.selected {
+      border:1px solid grey;
+      background:grey;
+    }
+  }
+}
