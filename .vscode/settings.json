@@ -1,10 +1,11 @@
 {
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "editor.codeActionsOnSave": {
     "source.formatDocument": true
   },
   "eslint.validate": ["javascript", "typescript"],
+  "eslint.format.enable": true,
   "search.exclude": {
     "**/node_modules": false
   }

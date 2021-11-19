@@ -1,7 +1,7 @@
-import { browser } from 'webextension-polyfill-ts';
-import { matchUrl } from '@bo-carey/urlglob';
+import { browser } from "webextension-polyfill-ts";
+import { matchUrl } from "@bo-carey/urlglob";
 
-import { SiteSettings } from './constants';
+import { SiteSettings } from "./constants";
 
 // const getAllKeys = async (): Promise<SiteKey[]> => {
 //   const data = await browser.storage.sync.get('allKeys');
@@ -30,7 +30,7 @@ const getAllSiteSettings = async (): Promise<{ [s: string]: any }> => {
 };
 
 const getSiteSettings = async (
-  location = window.location.href,
+  location = window.location.href
 ): Promise<SiteSettings | null> => {
   const allSiteSettings = await getAllSiteSettings();
   for (const siteSettings of Object.values(allSiteSettings)) {
@@ -39,7 +39,7 @@ const getSiteSettings = async (
       return siteSettings;
     }
   }
-  console.dir('no site settings found');
+  console.dir("no site settings found");
   return null;
 };
 
