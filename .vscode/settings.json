@@ -2,9 +2,14 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "editor.codeActionsOnSave": {
-    "source.formatDocument": true
+    "source.fixAll.eslint": true,
   },
-  "eslint.validate": ["javascript", "typescript"],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+  ],
   "eslint.format.enable": true,
   "search.exclude": {
     "**/node_modules": false

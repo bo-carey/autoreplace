@@ -1,30 +1,100 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es6": true
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "allowAutomaticSingleRunInference": true,
-    "ecmaVersion": 12,
-    "sourceType": "module",
-    "project": "./tsconfig.json"
+    "ecmaVersion": 2018
   },
-  "plugins": ["@typescript-eslint"],
-  "extends": ["plugin:@typescript-eslint/recommended", "prettier"],
-  "ignorePatterns": ["README.md"],
+  "extends": [
+    "airbnb-base",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "prettier"
+  ],
+  "plugins": [
+    "react-hooks"
+  ],
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "**/dist/**"
+  ],
   "rules": {
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-no-literals": "off",
+    "no-console": [
+      "warn",
+      {
+        "allow": [
+          "warn",
+          "error"
+        ]
+      }
+    ],
+    "arrow-parens": [
+      "error",
+      "always"
+    ],
+    "implicit-arrow-linebreak": [
+      "error",
+      "beside"
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-autofocus": "off",
+    "react/sort-comp": "off",
+    "react/display-name": "off",
+    "no-confusing-arrow": [
+      "error",
+      {
+        "allowParens": true
+      }
+    ],
+    "eol-last": [
+      "error",
+      "always"
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "webpack.*"
+        ]
+      }
+    ],
     "@typescript-eslint/naming-convention": [
       "warn",
       {
         "selector": "variableLike",
-        "format": ["camelCase", "UPPER_CASE", "PascalCase"],
+        // Variables should be camelCase or UPPER_CASE (constants) or PascalCase (components, classes etc)
+        "format": [
+          "camelCase",
+          "UPPER_CASE",
+          "PascalCase"
+        ],
         "leadingUnderscore": "allow"
       }
     ],
-    "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/ban-types": "warn",
-    "@typescript-eslint/ban-ts-comment": "warn",
     "@typescript-eslint/explicit-function-return-type": [
       "off",
       {
@@ -32,17 +102,29 @@
         "allowTypedFunctionExpressions": true
       }
     ],
-    "no-empty-function": 0,
-    "@typescript-eslint/no-empty-function": 0,
-
-    // use typescript-eslint-no-shadow instead of eslint's no-shadow
+    "@typescript-eslint/ban-ts-comment": [
+      "error",
+      {
+        "ts-ignore": "allow-with-description"
+      }
+    ],
+    "@typescript-eslint/no-non-null-assertion": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-var-requires": "warn",
+    "@typescript-eslint/no-empty-function": "off",
     "no-shadow": "off",
-    "@typescript-eslint/no-shadow": ["error"],
-
-    "func-names": ["error", "always"],
+    "@typescript-eslint/no-shadow": [
+      "error"
+    ],
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": "error",
+    "func-names": [
+      "error",
+      "always"
+    ],
     "max-len": [
       "error",
-      95,
+      120,
       2,
       {
         "ignoreComments": false,
@@ -52,15 +134,84 @@
         "ignoreUrls": true
       }
     ],
-
+    "complexity": "off",
+    "max-statements": [
+      "error",
+      30
+    ],
     "consistent-return": "off",
     "default-case": "off",
-    "class-methods-use-this": 0,
-    "import/prefer-default-export": 0,
-    // Code Quality
-    "max-lines": ["warn", 250],
-    "max-statements": ["warn", 30],
-    "max-params": ["warn", 5],
-    "complexity": ["warn", 10]
-  }
+    "class-methods-use-this": "off",
+    "react/destructuring-assignment": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-no-bind": "off",
+    "react/no-access-state-in-setstate": "warn",
+    "react/require-default-props": "warn",
+    "import/no-cycle": "off",
+    "import/namespace": "off",
+    "import/default": "off",
+    "import/no-named-as-default": "off",
+    "import/no-named-as-default-member": "off",
+    "import/export": "off",
+    "import/prefer-default-export": "off",
+    "react/button-has-type": "off"
+  },
+  "settings": {
+    "import/extensions": [
+      ".js",
+      ".ts",
+      ".tsx"
+    ],
+    "import/parsers": {
+      "@typescript-eslint/parser": [
+        ".ts",
+        ".tsx"
+      ]
+    },
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack.common.js"
+      }
+    },
+    "react": {
+      "version": "latest"
+    }
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "parserOptions": {
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+      },
+      "rules": {
+        "@typescript-eslint/no-var-requires": "error"
+      }
+    },
+    {
+      "files": [
+        "*.tsx"
+      ],
+      "rules": {
+        // PropTypes are redundant with TS
+        "react/prop-types": "off",
+        "react/require-default-props": "off",
+        // Code Quality Overrides for React Components
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-empty-function": "warn",
+        "max-lines": [
+          "warn",
+          500
+        ],
+        "max-statements": [
+          "warn",
+          20
+        ],
+        "jsx-a11y/no-autofocus": "warn"
+      }
+    }
+  ]
 }
