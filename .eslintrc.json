@@ -171,6 +171,9 @@
     "import/resolver": {
       "webpack": {
         "config": "webpack.common.js"
+      },
+      "node": {
+        "extensions": [".ts", ".tsx", ".native.js"]
       }
     },
     "react": {
