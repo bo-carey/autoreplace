@@ -1,5 +1,6 @@
 import { ChangeEventHandler, FunctionComponent, MouseEventHandler } from 'react';
 import ComplexInput from './ComplexInput';
+import ToggleButton from './ToggleButton';
 
 interface ReplaceRowParams {
   query: string;
@@ -25,9 +26,13 @@ const ReplaceRow: FunctionComponent<ReplaceRowParams> = ({
   setIsUsingRegex,
 }) => (
   <div className="row">
-    <ComplexInput value={query} setQuery={setQuery} isCaseSensitive={isCaseSensitive} isUsingRegex={isUsingRegex} setIsCaseSensitive={setIsCaseSensitive} setIsUsingRegex={setIsUsingRegex} />
-    <input type="text" value={replaceString} onChange={setReplaceString} />
-    <button onClick={deleteRow}>D</button>
+    <ComplexInput value={query} onChange={setQuery}>
+      <ToggleButton tooltip="Match Case" isSelected={isCaseSensitive} onSelect={setIsCaseSensitive}>Aa</ToggleButton>
+		  <ToggleButton tooltip="Use Regular Expression" isSelected={isUsingRegex} onSelect={setIsUsingRegex}>.*</ToggleButton>
+    </ComplexInput>
+    <ComplexInput value={replaceString} onChange={setReplaceString}>
+      <button className="delete" onClick={deleteRow}>&times;</button>
+    </ComplexInput>
   </div>
 );
 export default ReplaceRow;
