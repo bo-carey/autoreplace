@@ -1,12 +1,12 @@
 import React from 'react';
 import { ChangeEventHandler, FunctionComponent, MouseEventHandler } from 'react';
-import {Rule} from '../../utils/constants';
+import {Mutation} from '../../utils/constants';
 import ComplexInput from './ComplexInput';
 import ToggleButton, {ToggleButtonProps} from './ToggleButton';
 
 interface ReplaceRowParams {
-  mutation: Rule;
-  setMutation: (query: Rule) => void;
+  mutation: Mutation;
+  setMutation: (query: Mutation) => void;
   onDelete: () => void;
 }
  
@@ -15,7 +15,7 @@ const ReplaceRow: FunctionComponent<ReplaceRowParams> = ({
   setMutation,
   onDelete,
 }) => {
-  const handleChanges = (value: Partial<Rule>) => setMutation({...mutation, ...value});
+  const handleChanges = (value: Partial<Mutation>) => setMutation({...mutation, ...value});
   return (
     <div className="row">
       <ComplexInput 

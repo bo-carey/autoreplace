@@ -9,7 +9,7 @@ export interface SearchResult {
   active: number;
 }
 
-export type Payload = Rule[] | SiteSettings | null;
+export type Payload = Mutation[] | SiteSettings | null;
 
 export interface EventMessage {
   type: string;
@@ -25,7 +25,7 @@ export interface Search {
   isRegex: boolean;
 }
 
-export interface Rule {
+export interface Mutation {
   query: string;
   replaceString: string;
   isUsingRegex: boolean;
@@ -35,7 +35,7 @@ export interface Rule {
 export interface SiteSettings {
   uuid: string;
   urlGlob: string;
-  rules: Rule[];
+  rules: Mutation[];
 }
 
 export interface SiteKey {

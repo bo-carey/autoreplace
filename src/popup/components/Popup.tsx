@@ -1,7 +1,6 @@
 import React, { FunctionComponent, ReactElement } from 'react';
-import { EventType, Messenger, Rule } from '../../utils/constants';
+import { EventType, Messenger, Mutation } from '../../utils/constants';
 import ReplaceRow from './ReplaceRow';
-import ToggleButton from './ToggleButton';
 
 interface PopupParams {
   messenger: Messenger;
@@ -9,10 +8,10 @@ interface PopupParams {
 
 export const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
   const emptyValue = { query: '', replaceString: '', isUsingRegex: false, isCaseSensitive: false };
-  const [values, setValues] = React.useState<Rule[]>([emptyValue]);
+  const [values, setValues] = React.useState<Mutation[]>([emptyValue]);
 
-  const handleChange = (index: number, rule: Rule) => {
-    const newValues: Rule[] = [...values];
+  const handleChange = (index: number, rule: Mutation) => {
+    const newValues: Mutation[] = [...values];
     newValues[index] = rule;
     setValues(newValues);
   };

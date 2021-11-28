@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 import {
   EventType,
   EventMessage,
-  Rule,
+  Mutation,
   SiteSettings,
   EventMessageReturnType,
 } from '../utils/constants';
@@ -19,7 +19,7 @@ const getTextNodes = (el: Element = document.body): Element[] => {
   return textNodes;
 };
 
-const replaceText = (Rules: Rule[]) => {
+const replaceText = (Rules: Mutation[]) => {
   Rules.forEach((pair) => {
     const { query, replaceString } = pair;
     const regexQuery = new RegExp(query, 'g');
@@ -49,7 +49,7 @@ const handleMessage = (message: EventMessage): Promise<EventMessageReturnType> |
     case EventType.POPUP_MOUNTED:
       return storage.getSiteSettings();
     case EventType.REPLACE:
-      return replaceText(message.payload as Rule[]);
+      return replaceText(message.payload as Mutation[]);
     case EventType.SAVE:
       return saveRules(message.payload as SiteSettings);
     default:
@@ -69,6 +69,8 @@ const createMockData = async (): Promise<void> => {
       {
         query: 'o',
         replaceString: 'e',
+        isUsingRegex: false,
+        isCaseSensitive: false,
       },
     ],
   });
@@ -79,6 +81,8 @@ const createMockData = async (): Promise<void> => {
       {
         query: 'a',
         replaceString: 'o',
+        isUsingRegex: false,
+        isCaseSensitive: false,
       },
     ],
   });
