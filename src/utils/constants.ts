@@ -18,13 +18,6 @@ export interface EventMessage {
 
 export type EventMessageReturnType = SiteSettings | void | null;
 
-export interface Search {
-  id: string;
-  query: string | RegExp;
-  isCaseSensitive: boolean;
-  isRegex: boolean;
-}
-
 export interface Mutation {
   query: string;
   replaceString: string;

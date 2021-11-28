@@ -19,10 +19,10 @@ const getTextNodes = (el: Element = document.body): Element[] => {
   return textNodes;
 };
 
-const replaceText = (Rules: Mutation[]) => {
-  Rules.forEach((pair) => {
-    const { query, replaceString } = pair;
-    const regexQuery = new RegExp(query, 'g');
+const replaceText = (mutations: Mutation[]) => {
+  mutations.forEach((pair) => {
+    const { query, replaceString, isCaseSensitive, isUsingRegex } = pair;
+    const regexQuery = new RegExp(query, `g${isCaseSensitive ? 'i' : ''}`);
 
     for (let i = 0; i < allTextNodes.length; i++) {
       const node = allTextNodes[i];
