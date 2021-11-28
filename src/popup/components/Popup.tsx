@@ -1,24 +1,19 @@
 import React, { FunctionComponent, ReactElement } from 'react';
 import { EventType, Messenger, Rule } from '../../utils/constants';
 import ReplaceRow from './ReplaceRow';
+import ToggleButton from './ToggleButton';
 
 interface PopupParams {
   messenger: Messenger;
 }
 
 export const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
-  const emptyValue = { query: '', replaceString: '' };
+  const emptyValue = { query: '', replaceString: '', isUsingRegex: false, isCaseSensitive: false };
   const [values, setValues] = React.useState<Rule[]>([emptyValue]);
-  const [isCaseSensitive, setIsCaseSensitive] = React.useState<boolean>(false);
-  const [isUsingRegex, setIsUsingRegex] = React.useState<boolean>(false);
 
-  const handleChange = (
-    index: number,
-    ev: React.ChangeEvent<HTMLInputElement>,
-    key: 'query' | 'replaceString',
-  ) => {
+  const handleChange = (index: number, rule: Rule) => {
     const newValues: Rule[] = [...values];
-    newValues[index][key] = ev.target.value;
+    newValues[index] = rule;
     setValues(newValues);
   };
 
@@ -28,15 +23,9 @@ export const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
       rows.push(
         <ReplaceRow
           key={i}
-          query={value.query}
-          setQuery={(ev) => handleChange(i, ev, 'query')}
-          replaceString={value.replaceString}
-          setReplaceString={(ev) => handleChange(i, ev, 'replaceString')}
-          deleteRow={() => handleDelete(i)}
-          isCaseSensitive={isCaseSensitive}
-          isUsingRegex={isUsingRegex}
-          setIsCaseSensitive={setIsCaseSensitive}
-          setIsUsingRegex={setIsUsingRegex}
+          mutation={value}
+          setMutation={handleChange.bind(null, i)}
+          onDelete={handleDelete.bind(null, i)}
         />,
       );
     });

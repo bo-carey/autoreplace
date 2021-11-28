@@ -28,6 +28,8 @@ export interface Search {
 export interface Rule {
   query: string;
   replaceString: string;
+  isUsingRegex: boolean;
+  isCaseSensitive: boolean;
 }
 
 export interface SiteSettings {
