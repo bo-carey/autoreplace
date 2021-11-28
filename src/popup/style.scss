@@ -45,3 +45,33 @@ input {
     outline: none;
   }
 }
+
+#cont {
+  &.loading {
+    display: contents;
+    &:after {
+      content: "";
+      display: block;
+      width: 20px;
+      height: 20px;
+      // margin: 8px;
+      border-radius: 50%;
+      border: 3px solid #333;
+      border-color: #333 transparent #333 transparent;
+      animation: loading 1.2s linear infinite;
+    }
+    * {
+      display: none;
+    }
+  }
+}
+
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

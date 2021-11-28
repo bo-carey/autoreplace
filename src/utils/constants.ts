@@ -37,5 +37,6 @@ export interface SiteKey {
 }
 
 export interface Messenger {
+  getSiteSettings: () => Promise<SiteSettings>;
   send: (type: EventType, payload?: Payload) => Promise<EventMessageReturnType>;
 }

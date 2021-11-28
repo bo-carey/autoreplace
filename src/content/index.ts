@@ -70,7 +70,7 @@ const createMockData = async (): Promise<void> => {
         query: 'o',
         replaceString: 'e',
         isUsingRegex: false,
-        isCaseSensitive: false,
+        isCaseSensitive: true,
       },
     ],
   });

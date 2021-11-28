@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactElement } from 'react';
-import { EventType, Messenger, Mutation } from '../../utils/constants';
+import { EventType, Messenger, Mutation, SiteSettings } from '../../utils/constants';
 import ReplaceRow from './ReplaceRow';
 
 interface PopupParams {
@@ -9,6 +9,9 @@ interface PopupParams {
 export const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
   const emptyValue = { query: '', replaceString: '', isUsingRegex: false, isCaseSensitive: false };
   const [values, setValues] = React.useState<Mutation[]>([emptyValue]);
+  const [urlGlob, setUrlGlob] = React.useState<string | undefined>(undefined);
+  const [uuid, setUuid] = React.useState<string | undefined>(undefined);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   const handleChange = (index: number, rule: Mutation) => {
     const newValues: Mutation[] = [...values];
@@ -28,7 +31,6 @@ export const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
         />,
       );
     });
-
     return rows;
   };
 
@@ -41,13 +43,16 @@ export const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
   const save = () => messenger.send(EventType.SAVE, values);
 
   React.useEffect(() => {
-    messenger.send(EventType.POPUP_MOUNTED).then((siteData) => {
-      console.log('siteData :>> ', siteData);
+    messenger.getSiteSettings().then((siteSettings: SiteSettings) => {
+      setUrlGlob(siteSettings.urlGlob);
+      setUuid(siteSettings.uuid);
+      setValues(siteSettings.rules);
+      setIsLoading(false);
     });
   }, []);
 
   return (
-    <div id="cont">
+    <div id="cont" className={isLoading ? 'loading' : ''}>
       <div id="rows">{createRows()}</div>
       <button className="add-row" onClick={addRow}>
         Add Row
