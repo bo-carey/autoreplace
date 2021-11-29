@@ -1,13 +1,17 @@
 import React, { FunctionComponent, ReactElement } from 'react';
-import { EventType, Messenger, Mutation, SiteSettings } from '../../utils/constants';
+import {
+  EventType, Messenger, Mutation, SiteSettings,
+} from '../../utils/constants';
 import ReplaceRow from './ReplaceRow';
 
 interface PopupParams {
   messenger: Messenger;
 }
 
-export const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
-  const emptyValue = { query: '', replaceString: '', isUsingRegex: false, isCaseSensitive: false };
+const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
+  const emptyValue = {
+    query: '', replaceString: '', isUsingRegex: false, isCaseSensitive: false,
+  };
   const [values, setValues] = React.useState<Mutation[]>([emptyValue]);
   const [urlGlob, setUrlGlob] = React.useState<string | undefined>(undefined);
   const [uuid, setUuid] = React.useState<string | undefined>(undefined);
@@ -19,21 +23,6 @@ export const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
     setValues(newValues);
   };
 
-  const createRows = () => {
-    const rows: ReactElement[] = [];
-    values.forEach((value, i) => {
-      rows.push(
-        <ReplaceRow
-          key={i}
-          mutation={value}
-          setMutation={handleChange.bind(null, i)}
-          onDelete={handleDelete.bind(null, i)}
-        />,
-      );
-    });
-    return rows;
-  };
-
   const handleDelete = (index: number) => setValues(values.filter((v, i) => i !== index));
 
   const addRow = () => setValues([...values, emptyValue]);
@@ -42,6 +31,21 @@ export const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
 
   const save = () => messenger.send(EventType.SAVE, values);
 
+  const createRows = () => {
+    const rows: ReactElement[] = [];
+    values.forEach((value, i) => {
+      rows.push(
+        <ReplaceRow
+          key={i}
+          mutation={value}
+          setMutation={(v) => handleChange(i, v)}
+          onDelete={() => handleDelete(i)}
+        />,
+      );
+    });
+    return rows;
+  };
+
   React.useEffect(() => {
     messenger.getSiteSettings().then((siteSettings: SiteSettings) => {
       setUrlGlob(siteSettings.urlGlob);
@@ -49,16 +53,18 @@ export const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
       setValues(siteSettings.rules);
       setIsLoading(false);
     });
-  }, []);
+  }, [messenger]);
 
   return (
     <div id="cont" className={isLoading ? 'loading' : ''}>
       <div id="rows">{createRows()}</div>
-      <button className="add-row" onClick={addRow}>
+      <button type="button" className="add-row" onClick={addRow}>
         Add Row
       </button>
-      <button onClick={replace}>Run Now</button>
-      <button onClick={save}>Save</button>
+      <button type="button" onClick={replace}>Run Now</button>
+      <button type="button" onClick={save}>Save</button>
     </div>
   );
 };
+
+export default Popup;

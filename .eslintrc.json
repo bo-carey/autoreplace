@@ -9,14 +9,11 @@
     "ecmaVersion": 2018
   },
   "extends": [
-    "airbnb-base",
-    "eslint:recommended",
+    "airbnb",
+    "airbnb-typescript",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/recommended",
-    "plugin:import/typescript",
-    "plugin:react/recommended",
-    "plugin:jsx-a11y/recommended",
-    "prettier"
+    "plugin:import/typescript"
   ],
   "plugins": [
     "react-hooks"
@@ -48,11 +45,9 @@
     ],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
-    "jsx-a11y/anchor-is-valid": "off",
-    "jsx-a11y/click-events-have-key-events": "off",
-    "jsx-a11y/no-autofocus": "off",
     "react/sort-comp": "off",
     "react/display-name": "off",
+    "react/no-array-index-key": "off",
     "no-confusing-arrow": [
       "error",
       {
@@ -143,6 +138,7 @@
     "default-case": "off",
     "class-methods-use-this": "off",
     "react/destructuring-assignment": "off",
+    "no-plusplus": "off"
     // "react/jsx-props-no-spreading": "off",
     // "react/jsx-no-bind": "off",
     // "react/no-access-state-in-setstate": "warn",
@@ -157,11 +153,6 @@
     // "react/button-has-type": "off"
   },
   "settings": {
-    "import/extensions": [
-      ".js",
-      ".ts",
-      ".tsx"
-    ],
     "import/parsers": {
       "@typescript-eslint/parser": [
         ".ts",
@@ -170,7 +161,7 @@
     },
     "import/resolver": {
       "webpack": {
-        "config": "webpack.common.js"
+        "config": "webpack.common.ts"
       },
       "node": {
         "extensions": [".ts", ".tsx", ".native.js"]
@@ -212,8 +203,7 @@
         "max-statements": [
           "warn",
           20
-        ],
-        "jsx-a11y/no-autofocus": "warn"
+        ]
       }
     }
   ]

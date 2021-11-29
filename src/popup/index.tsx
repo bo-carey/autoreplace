@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { browser } from 'webextension-polyfill-ts';
-import { Popup } from './components/Popup';
+import Popup from './components/Popup';
 import { messengerFactory } from '../utils/comms';
 import './style.scss';
 

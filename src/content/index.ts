@@ -12,16 +12,22 @@ import storage from '../utils/storage';
 let allTextNodes: Element[] = [];
 
 const getTextNodes = (el: Element = document.body): Element[] => {
-  let node;
   const textNodes = [];
   const treeWalker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
-  while ((node = treeWalker.nextNode())) textNodes.push(node as Element);
+  let node = treeWalker.nextNode();
+  while (node) {
+    textNodes.push(node as Element);
+    node = treeWalker.nextNode();
+  }
   return textNodes;
 };
 
 const replaceText = (mutations: Mutation[]) => {
   mutations.forEach((pair) => {
-    const { query, replaceString, isCaseSensitive, isUsingRegex } = pair;
+    const {
+      query, replaceString, isCaseSensitive, isUsingRegex,
+    } = pair;
+    console.log('pair', pair);
     const regexQuery = new RegExp(query, `g${isCaseSensitive ? 'i' : ''}`);
 
     for (let i = 0; i < allTextNodes.length; i++) {
@@ -82,11 +88,10 @@ const createMockData = async (): Promise<void> => {
         query: 'a',
         replaceString: 'o',
         isUsingRegex: false,
-        isCaseSensitive: false,
+        isCaseSensitive: true,
       },
     ],
   });
-  return;
 };
 
 createMockData();
