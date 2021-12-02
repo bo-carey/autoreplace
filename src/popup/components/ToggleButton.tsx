@@ -1,19 +1,22 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent } from 'react';
 
 export interface ToggleButtonProps {
   tooltip: string;
-	isSelected: boolean;
+  isSelected: boolean;
   onSelect: (a: boolean) => void;
 }
 
-const ToggleButton: FunctionComponent<ToggleButtonProps> = ({tooltip = '', isSelected, onSelect, children}) => (
-	<button
+const ToggleButton: FunctionComponent<ToggleButtonProps> = ({
+  tooltip = '', isSelected, onSelect, children,
+}) => (
+  <button
+    type="button"
     title={tooltip}
     className={isSelected ? 'selected' : ''}
     onClick={() => onSelect(!isSelected)}
   >
     {children}
   </button>
-)
+);
 
 export default ToggleButton;

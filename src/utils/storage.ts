@@ -1,7 +1,7 @@
-import { browser } from "webextension-polyfill-ts";
-import { matchUrl } from "@bo-carey/urlglob";
+import { browser } from 'webextension-polyfill-ts';
+import { matchUrl } from '@bo-carey/urlglob';
 
-import { SiteSettings } from "./constants";
+import { SiteSettings } from './constants';
 
 // const getAllKeys = async (): Promise<SiteKey[]> => {
 //   const data = await browser.storage.sync.get('allKeys');
@@ -30,22 +30,21 @@ const getAllSiteSettings = async (): Promise<{ [s: string]: any }> => {
 };
 
 const getSiteSettings = async (
-  location = window.location.href
+  location = window.location.href,
 ): Promise<SiteSettings | null> => {
   const allSiteSettings = await getAllSiteSettings();
-  for (const siteSettings of Object.values(allSiteSettings)) {
-    if (matchUrl(location, siteSettings.urlGlob)) {
-      console.log(`siteSettings`, siteSettings);
-      return siteSettings;
+  Object.keys(allSiteSettings).forEach((key) => {
+    if (matchUrl(location, allSiteSettings[key].urlGlob)) {
+      console.log('siteSettings', allSiteSettings[key]); // eslint-disable-line no-console
+      return allSiteSettings[key];
     }
-  }
-  console.dir("no site settings found");
+  });
+  console.dir('no site settings found'); // eslint-disable-line no-console
   return null;
 };
 
 const setSiteSettings = async (siteSettings: SiteSettings): Promise<void> => {
   await browser.storage.sync.set({ [siteSettings.uuid]: siteSettings });
-  return;
 };
 
 export default {
