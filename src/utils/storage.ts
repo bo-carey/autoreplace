@@ -44,6 +44,7 @@ const getSiteSettings = async (
 };
 
 const setSiteSettings = async (siteSettings: SiteSettings): Promise<void> => {
+  console.log('setting site settings');
   await browser.storage.sync.set({ [siteSettings.uuid]: siteSettings });
 };
 

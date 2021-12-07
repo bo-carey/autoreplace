@@ -39,10 +39,7 @@
       "error",
       "always"
     ],
-    "implicit-arrow-linebreak": [
-      "error",
-      "beside"
-    ],
+    "implicit-arrow-linebreak": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
     "react/sort-comp": "off",

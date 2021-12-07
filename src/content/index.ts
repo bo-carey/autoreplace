@@ -51,6 +51,7 @@ const saveRules = async (settings: SiteSettings): Promise<void> => {
 };
 
 const handleMessage = (message: EventMessage): Promise<EventMessageReturnType> | void => {
+  console.log('message', message);
   switch (message.type) {
     case EventType.POPUP_MOUNTED:
       return storage.getSiteSettings();
