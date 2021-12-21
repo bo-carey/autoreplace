@@ -17,6 +17,7 @@ const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
   const [urlGlob, setUrlGlob] = React.useState<string>('');
   const [uuid, setUuid] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const [isInitializing, setIsInitializing] = React.useState<boolean>(true);
 
   const handleChange = (index: number, rule: Mutation) => {
     const newValues: Mutation[] = [...values];
@@ -51,7 +52,7 @@ const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
     return rows;
   };
 
-  React.useEffect(() => {
+  if (isInitializing) {
     messenger.getSiteSettings().then((siteSettings: SiteSettings) => {
       console.log('siteSettings :>> ', siteSettings);
       if (siteSettings) {
@@ -63,7 +64,8 @@ const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
       if (!urlGlob) setUrlGlob('*');
       setIsLoading(false);
     });
-  });
+    setIsInitializing(false);
+  }
 
   return (
     <div id="cont" className={isLoading ? 'loading' : ''}>

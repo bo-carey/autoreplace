@@ -8,6 +8,7 @@ import {
   EventMessageReturnType,
 } from '../utils/constants';
 import storage from '../utils/storage';
+import testData from '../utils/testData';
 
 let allTextNodes: Element[] = [];
 
@@ -62,6 +63,7 @@ const handleMessage = (message: EventMessage): Promise<EventMessageReturnType> |
     default:
       console.log('AutoReplace recieved unknown message: ', message);
   }
+  return Promise.resolve();
 };
 
 browser.runtime.onMessage.addListener(handleMessage);
@@ -69,30 +71,7 @@ browser.runtime.onMessage.addListener(handleMessage);
 allTextNodes = getTextNodes();
 
 const createMockData = async (): Promise<void> => {
-  await storage.setSiteSettings({
-    uuid: '00000000-0000-0000-0000-000000000000',
-    urlGlob: '*://www.google.com/*',
-    rules: [
-      {
-        query: 'o',
-        replaceString: 'e',
-        isUsingRegex: false,
-        isCaseSensitive: true,
-      },
-    ],
-  });
-  await storage.setSiteSettings({
-    uuid: '11111111-1111-1111-1111-111111111111',
-    urlGlob: '**rocketfusiondev**',
-    rules: [
-      {
-        query: 'a',
-        replaceString: 'o',
-        isUsingRegex: false,
-        isCaseSensitive: true,
-      },
-    ],
-  });
+  testData.forEach((data) => storage.setSiteSettings(data));
 };
 
 createMockData();

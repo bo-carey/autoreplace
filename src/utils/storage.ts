@@ -1,10 +1,11 @@
 import { browser } from 'webextension-polyfill-ts';
 import { matchUrl } from '@bo-carey/urlglob';
+import { v4 as uuidv4 } from 'uuid';
 
 import { SiteSettings } from './constants';
 
 // const getAllKeys = async (): Promise<SiteKey[]> => {
-//   const data = await browser.storage.sync.get('allKeys');
+//   const data = await browser.storage.local.get('allKeys');
 //   const allKeys = data?.allKeys || [];
 //   return allKeys;
 // };
@@ -16,7 +17,7 @@ import { SiteSettings } from './constants';
 // };
 
 // const setAllKeys = async (allKeys: SiteKey[]): Promise<void> => {
-//   await browser.storage.sync.set({ allKeys });
+//   await browser.storage.local.set({ allKeys });
 // };
 
 // const setSiteKey = async (siteKey: SiteKey): Promise<void> => {
@@ -25,27 +26,29 @@ import { SiteSettings } from './constants';
 // };
 
 const getAllSiteSettings = async (): Promise<{ [s: string]: any }> => {
-  const data = await browser.storage.sync.get();
+  const data = await browser.storage.local.get();
   return data;
 };
 
 const getSiteSettings = async (
   location = window.location.href,
 ): Promise<SiteSettings | null> => {
+  console.dir('getting site settings');
   const allSiteSettings = await getAllSiteSettings();
-  Object.keys(allSiteSettings).forEach((key) => {
-    if (matchUrl(location, allSiteSettings[key].urlGlob)) {
-      console.log('siteSettings', allSiteSettings[key]); // eslint-disable-line no-console
-      return allSiteSettings[key];
+  const keys = Object.keys(allSiteSettings);
+  for (let i = 0; i < keys.length; i++) {
+    const siteSettings = allSiteSettings[keys[i]];
+    if (matchUrl(location, siteSettings.urlGlob)) {
+      return siteSettings;
     }
-  });
+  }
   console.dir('no site settings found'); // eslint-disable-line no-console
   return null;
 };
 
 const setSiteSettings = async (siteSettings: SiteSettings): Promise<void> => {
   console.log('setting site settings');
-  await browser.storage.sync.set({ [siteSettings.uuid]: siteSettings });
+  await browser.storage.local.set({ [siteSettings.uuid]: siteSettings });
 };
 
 export default {
