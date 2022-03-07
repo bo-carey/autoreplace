@@ -56,11 +56,11 @@ const config: Configuration = {
     }),
     new WebExtPlugin({
       sourceDir: path.resolve(__dirname, `dist/${buildTarget}`),
-      artifactsDir: path.resolve(__dirname, `dist`),
+      artifactsDir: path.resolve(__dirname, 'dist'),
       buildPackage: true,
       overwriteDest: true,
       outputFilename: `${buildTarget}.zip`,
-      startUrl: 'https://rocketfusiondev.com/p/7/Testing-Static-Text-Page-Sections',
+      startUrl: 'https://www.google.com/search?q=google',
       target: buildTarget === 'firefox' ? 'firefox-desktop' : 'chromium',
     }),
   ],

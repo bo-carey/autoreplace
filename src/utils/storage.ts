@@ -33,7 +33,7 @@ const getAllSiteSettings = async (): Promise<{ [s: string]: any }> => {
 const getSiteSettings = async (
   location = window.location.href,
 ): Promise<SiteSettings | null> => {
-  console.dir('getting site settings');
+  console.log('getSiteSettings');
   const allSiteSettings = await getAllSiteSettings();
   const keys = Object.keys(allSiteSettings);
   for (let i = 0; i < keys.length; i++) {
@@ -42,12 +42,12 @@ const getSiteSettings = async (
       return siteSettings;
     }
   }
-  console.dir('no site settings found'); // eslint-disable-line no-console
+  console.dir('getSiteSettings::no site settings found'); // eslint-disable-line no-console
   return null;
 };
 
 const setSiteSettings = async (siteSettings: SiteSettings): Promise<void> => {
-  console.log('setting site settings');
+  console.log('setSiteSettings', siteSettings);
   await browser.storage.local.set({ [siteSettings.uuid]: siteSettings });
 };
 

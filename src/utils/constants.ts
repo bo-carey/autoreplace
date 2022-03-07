@@ -28,7 +28,7 @@ export interface Mutation {
 export interface SiteSettings {
   uuid: string;
   urlGlob: string;
-  rules: Mutation[];
+  mutations: Mutation[];
 }
 
 export interface SiteKey {

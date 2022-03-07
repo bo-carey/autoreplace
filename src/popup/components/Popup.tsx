@@ -34,7 +34,7 @@ const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
   const save = () => {
     if (!uuid) setUuid(genUuid());
     if (!urlGlob) setUrlGlob('*');
-    messenger.send(EventType.SAVE, { rules: values, urlGlob, uuid });
+    messenger.send(EventType.SAVE, { mutations: values, urlGlob, uuid });
   };
 
   const createRows = () => {
@@ -56,7 +56,7 @@ const Popup: FunctionComponent<PopupParams> = ({ messenger }) => {
     messenger.getSiteSettings().then((siteSettings: SiteSettings) => {
       console.log('siteSettings :>> ', siteSettings);
       if (siteSettings) {
-        setValues(siteSettings.rules);
+        setValues(siteSettings.mutations);
         setUrlGlob(siteSettings.urlGlob);
         setUuid(siteSettings.uuid);
       }

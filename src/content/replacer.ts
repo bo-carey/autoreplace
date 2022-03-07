@@ -1,6 +1,6 @@
 import { Mutation } from '../utils/constants';
 
-export const getTextNodes = (el: Element = document.body): Element[] => {
+export const getTextNodes = (el: Element | Node = document.body): Element[] => {
   const treeWalker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
     acceptNode: (node: Node) => {
       if (node?.textContent?.length === 0
@@ -58,6 +58,7 @@ const regexReplace = ({
 };
 
 export const replaceText = (mutations: Mutation[], nodes: Element[]) => {
+  console.log('replaceText', { mutations, nodes });
   mutations.forEach((pair) => {
     if (pair.isUsingRegex) {
       regexReplace(pair, nodes);
