@@ -22,7 +22,10 @@ const handleMessage = (message: EventMessage): Promise<EventMessageReturnType> |
     case EventType.POPUP_MOUNTED:
       return storage.getSiteSettings();
     case EventType.REPLACE:
-      if (observer) observer.disconnect();
+      if (observer) {
+        observer.disconnect();
+        observer = null;
+      }
       return replaceText(message.payload as Mutation[], allTextNodes);
     case EventType.SAVE:
       return saveMutations(message.payload as SiteSettings);
@@ -42,10 +45,11 @@ const runReplacer = async () => {
   mutations = siteSettings?.mutations || null;
   console.log('runReplacer::mutations', mutations);
   if (mutations?.length) {
-    replaceText(mutations || [], allTextNodes);
     observer = createObserver(mutations);
+    replaceText(mutations || [], allTextNodes);
   }
+  browser.runtime.onMessage.addListener(handleMessage);
 };
 
-browser.runtime.onMessage.addListener(handleMessage);
-window.addEventListener('onload', () => runReplacer());
+console.log('AutoReplace::setting up listeners');
+runReplacer();
