@@ -23,21 +23,42 @@ const getTextNodes = (el: Element = document.body): Element[] => {
   return textNodes;
 };
 
+const regexReplace = ({
+  query, replaceString, isCaseSensitive,
+}: Mutation) => {
+  const casedQuery = isCaseSensitive ? query : query.toLowerCase();
+  for (let i = 0; i < allTextNodes.length; i++) {
+    const node = allTextNodes[i];
+    const currentValue = node.textContent || null;
+    let newValue = currentValue;
+    newValue = newValue?.replace(casedQuery, replaceString) || null;
+    if (currentValue && newValue && currentValue !== newValue) {
+      node.textContent = newValue;
+    }
+  }
+};
+
+const textReplace = ({
+  query, replaceString, isCaseSensitive,
+}: Mutation) => {
+  const regexQuery = new RegExp(query, `g${!isCaseSensitive && 'i'}`);
+
+  for (let i = 0; i < allTextNodes.length; i++) {
+    const node = allTextNodes[i];
+    const currentValue = node.textContent || null;
+    const newValue = node.textContent?.replace(regexQuery, replaceString) || null;
+    if (currentValue && newValue && currentValue !== newValue) {
+      node.textContent = newValue;
+    }
+  }
+};
+
 const replaceText = (mutations: Mutation[]) => {
   mutations.forEach((pair) => {
-    const {
-      query, replaceString, isCaseSensitive, isUsingRegex,
-    } = pair;
-    console.log('pair', pair);
-    const regexQuery = new RegExp(query, `g${isCaseSensitive ? 'i' : ''}`);
-
-    for (let i = 0; i < allTextNodes.length; i++) {
-      const node = allTextNodes[i];
-      const currentValue = node.textContent || null;
-      const newValue = node.textContent?.replace(regexQuery, replaceString) || null;
-      if (currentValue && newValue && currentValue !== newValue) {
-        node.textContent = newValue;
-      }
+    if (pair.isUsingRegex) {
+      regexReplace(pair);
+    } else {
+      textReplace(pair);
     }
   });
 };
