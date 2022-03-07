@@ -13,8 +13,19 @@ import testData from '../utils/testData';
 let allTextNodes: Element[] = [];
 
 const getTextNodes = (el: Element = document.body): Element[] => {
+  const treeWalker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+    acceptNode: (node: Node) => {
+      if (node?.textContent?.length === 0
+            || node?.parentNode?.nodeName === 'SCRIPT'
+            || node?.parentNode?.nodeName === 'STYLE'
+      ) {
+        // Don't include 0 length, <script>, or <style> text nodes.
+        return NodeFilter.FILTER_SKIP;
+      } // else
+      return NodeFilter.FILTER_ACCEPT;
+    },
+  });
   const textNodes = [];
-  const treeWalker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
   let node = treeWalker.nextNode();
   while (node) {
     textNodes.push(node as Element);
@@ -23,10 +34,11 @@ const getTextNodes = (el: Element = document.body): Element[] => {
   return textNodes;
 };
 
-const regexReplace = ({
+const textReplace = ({
   query, replaceString, isCaseSensitive,
 }: Mutation) => {
   const casedQuery = isCaseSensitive ? query : query.toLowerCase();
+  console.log('textReplace::casedQuery', casedQuery);
   for (let i = 0; i < allTextNodes.length; i++) {
     const node = allTextNodes[i];
     const currentValue = node.textContent || null;
@@ -38,23 +50,28 @@ const regexReplace = ({
   }
 };
 
-const textReplace = ({
+const regexReplace = ({
   query, replaceString, isCaseSensitive,
 }: Mutation) => {
-  const regexQuery = new RegExp(query, `g${!isCaseSensitive && 'i'}`);
-
-  for (let i = 0; i < allTextNodes.length; i++) {
-    const node = allTextNodes[i];
-    const currentValue = node.textContent || null;
-    const newValue = node.textContent?.replace(regexQuery, replaceString) || null;
-    if (currentValue && newValue && currentValue !== newValue) {
-      node.textContent = newValue;
+  try {
+    const regexQuery = new RegExp(query, `g${!isCaseSensitive ? 'i' : ''}`);
+    console.log('regexReplace::regexQuery', regexQuery);
+    for (let i = 0; i < allTextNodes.length; i++) {
+      const node = allTextNodes[i];
+      const currentValue = node.textContent || null;
+      const newValue = node.textContent?.replace(regexQuery, replaceString) || null;
+      if (currentValue && newValue && currentValue !== newValue) {
+        node.textContent = newValue;
+      }
     }
+  } catch (error) {
+    console.log(error);
   }
 };
 
 const replaceText = (mutations: Mutation[]) => {
   mutations.forEach((pair) => {
+    console.log('pair', pair);
     if (pair.isUsingRegex) {
       regexReplace(pair);
     } else {
