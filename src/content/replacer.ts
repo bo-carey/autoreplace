@@ -22,27 +22,26 @@ export const getTextNodes = (el: Element | Node = document.body): Element[] => {
   return textNodes;
 };
 
-const textReplace = ({
-  query, replaceString, isCaseSensitive,
-}: Mutation, nodes: Element[]) => {
-  const casedQuery = isCaseSensitive ? query : query.toLowerCase();
-  console.log('textReplace::casedQuery', casedQuery);
+const textReplace = (mutation: Mutation, nodes: Element[]) => {
+  const { query, replaceString, isCaseSensitive } = mutation;
+  const searchValue = query.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+  const searchExp = new RegExp(searchValue, `g${isCaseSensitive ? '' : 'i'}`);
+  console.log('textReplace::searchExp', searchExp);
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
     const currentValue = node.textContent || null;
     let newValue = currentValue;
-    newValue = newValue?.replace(casedQuery, replaceString) || null;
+    newValue = newValue?.replace(searchExp, replaceString) || null;
     if (currentValue && newValue && currentValue !== newValue) {
       node.textContent = newValue;
     }
   }
 };
 
-const regexReplace = ({
-  query, replaceString, isCaseSensitive,
-}: Mutation, nodes: Element[]) => {
+const regexReplace = (mutation: Mutation, nodes: Element[]) => {
+  const { query, replaceString, isCaseSensitive } = mutation;
   try {
-    const regexQuery = new RegExp(query, `g${!isCaseSensitive ? 'i' : ''}`);
+    const regexQuery = new RegExp(query, `g${isCaseSensitive ? '' : 'i'}`);
     console.log('regexReplace::regexQuery', regexQuery);
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i];
